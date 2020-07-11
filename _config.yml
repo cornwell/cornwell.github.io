@@ -16,16 +16,16 @@ minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "default", "dark"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Chris Cornwell's Projects"
+title                    : "Cornwell's ML Blog"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "Christopher Cornwell"
-description              : "Watch for my Math projects and my ML projects."
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
+description              : "A Blog for my ML projects and Related Math."
+url                      : "https://cornwell.github.io"
+baseurl                  : "/posts"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
-logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
+logo                     : "/assets/images/protip2.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
@@ -94,10 +94,10 @@ analytics:
 # Site Author
 author:
   name             : "Christopher Cornwell"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/20180112_102710v2.jpg"
   bio              : "I am a boosted learner."
-  location         : "Somewhere"
-  email            :
+  location         : "Maryland, US"
+  email            : # "c cornwell AT towson DOT edu"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
