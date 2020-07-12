@@ -22,10 +22,10 @@ subtitle                 : # site tagline that appears below site title in masth
 name                     : "Christopher Cornwell"
 description              : "A Blog for my ML projects and Related Math."
 url                      : "https://cornwell.github.io"
-baseurl                  : "/posts"
+baseurl                  : # "/posts"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
-logo                     : "/assets/images/protip2.png"
+logo                     : # "/assets/images/protip2.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
