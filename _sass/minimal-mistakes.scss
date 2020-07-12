@@ -38,3 +38,10 @@
 @import "minimal-mistakes/archive";
 @import "minimal-mistakes/sidebar";
 @import "minimal-mistakes/print";
+
+/* Elements in Markdown files, for my site */
+div.md_updated {
+  margin-left:7.5in;
+  text-align:center;
+  background-color:lightgray;
+}
