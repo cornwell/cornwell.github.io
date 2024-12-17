@@ -5,5 +5,17 @@
 "PhysRev":
   url: https://journals.aps.org/
 
+"CombSN":
+  url: https://link.springer.com/journal/493
+  color: "#e4d044"
+
+"IntlPress":
+  url: https://archive.intlpress.com/index.php
+  color: "#b1e2f9"
+
+"ELJComb":
+  url: https://www.combinatorics.org/ojs/index.php/eljc
+  color: "#e7e3d8"
+
 "Vision":
   color: "#009f36"
