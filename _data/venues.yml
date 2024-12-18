@@ -7,19 +7,19 @@
 
 "CombSN":
   url: https://link.springer.com/journal/493
-  color: "#e4d044"
+  color: "--global-theme-color"
 
 "IntlPress":
   url: https://archive.intlpress.com/index.php
-  color: "#b1e2f9"
+  color: "--global-theme-color"
 
 "ELJComb":
   url: https://www.combinatorics.org/ojs/index.php/eljc
-  color: "#e7e3d8"
+  color: "--global-theme-color"
 
 "Elsevier":
   url: https://www.sciencedirect.com/
-  color: "#fb6d00"
+  color: "--global-theme-color"
 
 "Vision":
   color: "#009f36"
