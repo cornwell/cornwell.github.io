@@ -17,5 +17,9 @@
   url: https://www.combinatorics.org/ojs/index.php/eljc
   color: "#e7e3d8"
 
+"Elsevier":
+  url: https://www.sciencedirect.com/
+  color: "#fb6d00"
+
 "Vision":
   color: "#009f36"
