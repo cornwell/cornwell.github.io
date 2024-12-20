@@ -88,7 +88,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 # -----------------------------------------------------------------------------
 
 blog_name: Cornwell's thoughts # blog_name will be displayed in your blog page
-blog_description: a github blog on recent ideas and scripts
+blog_description: a blog on my recent ideas and code
 permalink: /blog/:year/:title/
 lsi: false # produce an index for related posts
 
