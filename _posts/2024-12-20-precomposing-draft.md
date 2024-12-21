@@ -8,7 +8,7 @@ categories: math neural_networks
 related_posts: false
 thumbnail: assets/img/9.jpg
 toc:
-  sidebar: right
+  beginning: true
 ---
 
 I first starting writing this post as a draft at my old Wordpress website. I'm attempting to port it here. Please be patient if I missed a spot where some syntax or formatting needed to be translated.
@@ -64,12 +64,13 @@ $$\dim_{fun+}(\theta) = \underset{Z\subset\mathbb R_{>0}^{n_0} \text{ is finite 
 
 After a small change to the notation, the following is the statement of Lemma 8.2 in \[GLMW22\].
 
-**Lemma 8.2.** Fix $$n_0\in\mathbb N$$ and let $$\Omega$$ be the parameter space for architecture $$(n_1,n_2,\ldots,n_d)$$. Let $$\theta\in\Omega$$ be such that there is a smooth point in the strictly positive orthant of $$\mathbb R^{n_1}$$. Let $$A:\mathbb R^{n_0}\to\mathbb R^{n_1}$$ be affine-linear such that every row of the associated matrix has at least one non-zero entry. Use $$(A, \theta)$$ to denote the parameter for architecture $$(n_0,n_1,\ldots,n_d)$$ that precomposes with $$A$$, i.e., $$\Phi\circ A$$ is the first layer map of the network function $$F_{(A,\theta)}$$. <br> 
-If $$(A, \theta)$$ satisfies nice conditions, then $$\dim_{fun}(A,\theta) \le n_0n_1 + \dim_{fun+}(\theta)$$. Furthermore, for this inequality to be equality it is necessary that $$\dim_{fun+}(\theta)$$ be realized on a smooth set $$Z^* \subset \operatorname{Im}(\Phi\circ A)$$.
+##### Lemma 8.2
+Fix $$n_0\in\mathbb N$$ and let $$\Omega$$ be the parameter space for architecture $$(n_1,n_2,\ldots,n_d)$$. Let $$\theta\in\Omega$$ be such that there is a smooth point in the strictly positive orthant of $$\mathbb R^{n_1}$$. Let $$A:\mathbb R^{n_0}\to\mathbb R^{n_1}$$ be affine-linear such that every row of the associated matrix has at least one non-zero entry. Use $$(A, \theta)$$ to denote the parameter for architecture $$(n_0,n_1,\ldots,n_d)$$ that precomposes with $$A$$, i.e., $$\Phi\circ A$$ is the first layer map of the network function $$F_{(A,\theta)}$$. <br> 
+If $$(A, \theta)$$ satisfies nice conditions, then $$\dim_{fun}(A,\theta) \le n_0n_1 + \dim_{fun+}(\theta)$$. Furthermore, for this inequality to be equality it is necessary that $$\dim_{fun+}(\theta)$$ be realized on a smooth set $$Z^* \subset \operatorname{Im}(\Phi\circ A)$$. 
 
-<table>
-<tr>$$\mathcal{Pf}:$$ The proof of this lemma uses the scaling-inverse scaling invariance of $$F_{(A,\theta)}$$, in the first hidden layer. The authors use this to identify the parameter space with coordinates in the product $$\mathbb R_{>0}^{n_1} \times (\mathbb R^{n_0})^{n_1} \times \Omega$$. They then argue that, for $$Z\subset\mathbb R^{n_0}$$, the columns of $$\mathbf{J}E_Z\lvert_{(A,\theta)}$$ that correspond to parameters in $$\mathbb R_{>0}^{n_1}$$ will be zero; that the columns corresponding to parameters in $$(\mathbb R^{n_0})^{n_1}$$ can contribute at most $$n_0n_1$$ to the rank; finally, that the contribution to the rank from columns corresponding to parameters in $$\Omega$$ will at most be the $$\sup$$ of the rank of $$\mathbf{J}$$ of the evaluation map on subsets in $$\mathbb R_{>0}^{n_1}$$,[^4] evaluated at $$\theta$$, which equals $$\dim_{fun+}(\theta)$$. $$\blacksquare$$ </tr>
-</table>
+> ##### Proof sketch
+> The proof of this lemma uses the scaling-inverse scaling invariance of \\(F_{(A,\theta)}\\), in the first hidden layer. The authors use this to identify the parameter space with coordinates in the product \\(\mathbb R_{>0}^{n_1} \times (\mathbb R^{n_0})^{n_1} \times \Omega\\). They then argue that, for \\(Z\subset\mathbb R^{n_0}\\), the columns of \\(\mathbf{J}E_Z\lvert_{(A,\theta)}\\) that correspond to parameters in \\(\mathbb R_{>0}^{n_1}\\) will be zero; that the columns corresponding to parameters in \\((\mathbb R^{n_0})^{n_1}\\) can contribute at most \\(n_0n_1\\) to the rank; finally, that the contribution to the rank from columns corresponding to parameters in \\(\Omega\\) will at most be the \\(\sup\\) of the rank of \\(\mathbf{J}\\) of the evaluation map on subsets in \\(\mathbb R_{>0}^{n_1}\\),[^4] evaluated at \\(\theta\\), which equals \\(\dim_{fun+}(\theta).\\) \\(\blacksquare\\)
+{: .block-tip }
 
 Note that all of the assumptions in Lemma 8.2 that occur before the word "Furthermore" will be true of a full measure subset in the parameter space for $$(A, \theta)$$. This is proven in \[GLMW22\] and remarked upon at the beginning of subsection 8.1.  Moreover, if $$n_0 \ge n_1$$ then there is a full measure subset of parameters so that $$A$$ is surjective, in which case $$\operatorname{Im}(\Phi\circ A) = \mathbb R_{\ge 0}^{n_1}$$. By definition, this contains any subset $$Z^*$$ that realizes $$\dim_{fun+}(\theta)$$. So, if $$n_0 \ge n_1$$ then a full measure set of parameters satisfies that necessary condition.
 
@@ -91,7 +92,8 @@ Intuitively speaking, the value of $$\tau^\ell_j(x)$$ is positive if and only if
 
 For Lemma 8.5, we have a similar setup to Lemma 8.2. There is a parameter $$\theta\in\Omega$$, for a network with architecture $$(n_1,\ldots, n_d)$$, an affine-linear map $$A:\mathbb R^{n_0}\to\mathbb R^{n_1}$$ (use $$A$$ for the $$n_1\times(n_0+1)$$ matrix that determines it). We are interested in precomposing with $$A$$ to get a neural network with architecture $$(n_0,n_1,\ldots,n_d)$$ and with parameter $$(A, \theta)$$.  Now, before precomposing there are coordinate ternary labelings $$\tau^\ell_j$$ for every  $$1\le \ell\le n_d-1$$ and $$1\le j\le n_{\ell+1}$$[^5]
 
-**Lemma 8.5.** Suppose that $$\theta$$ and $$A$$ are as above and that $$\theta$$ satisfies "nice conditions."  For $$1\le j\le n_1$$ and $$x\in \mathbb R^{n_0}$$, use $$\tau^A_j(x)$$ to denote the ternary label (at $$x$$) with respect to the $$j$$th row of $$A$$.  Assume that $$A$$ is non-degenerate, in the sense that for $$1\le j\le n_1$$ the set where $$\tau^A_j(x) = 0$$ is a hyperplane in $$\mathbb R^{n_0}$$.
+##### Lemma 8.5
+Suppose that $$\theta$$ and $$A$$ are as above and that $$\theta$$ satisfies "nice conditions."  For $$1\le j\le n_1$$ and $$x\in \mathbb R^{n_0}$$, use $$\tau^A_j(x)$$ to denote the ternary label (at $$x$$) with respect to the $$j$$th row of $$A$$.  Assume that $$A$$ is non-degenerate, in the sense that for $$1\le j\le n_1$$ the set where $$\tau^A_j(x) = 0$$ is a hyperplane in $$\mathbb R^{n_0}$$.
 We suppose that for every $$1\le k\le n_1$$, there exists $$y_k\in\mathbb R^{n_0}$$ such that <br>
 &nbsp;&nbsp;&nbsp;&nbsp; (i) $$\tau^A_k(y_k) = 0$$, <br>
 &nbsp;&nbsp;&nbsp;&nbsp; (ii) $$\tau^A_j(y_k) \ne 0$$ for all $$j \ne k$$, <br>
@@ -100,38 +102,37 @@ We suppose that for every $$1\le k\le n_1$$, there exists $$y_k\in\mathbb R^{n_0
 Then there is a finite set $$Z$$ in $$\mathbb R^{n_0}$$ such that (v) up to scaling rows of $$A$$ by positive numbers, each entry of $$A$$ is given by a unique affine-linear combination of the coordinates of the vector $$E_Z(A, \theta)$$; and (vi) the ternary labeling for $$(A, \theta)$$ of every point in $$Z$$, at every neuron, is non-zero. <br>
 Finally, the lemma also states that if $$y_k \in \mathbb R_{>0}^{n_0}$$ for every $$k$$ then (vii) the set $$Z$$ can be chosen to be in $$R_{>0}^{n_0}$$.
 
+<br> 
+
 Now, finding a set $$y_1, \ldots, y_{n_1}$$ that satisfy conditions (i) - (iii) is possible generically – the conditions (i) and (ii) can be guaranteed as long as the hyperplane arrangement in $$\mathbb R^{n_0}$$ associated to $$A$$ is generic; condition (iii) says that each of the $$n_1$$ points $$\Phi\circ A(y_k)$$ is contained in a top-dimensional cell of the canonical polyhedral decomposition for $$\mathcal N(\theta)$$ and this can be achieved for a choice of $$y_1,\ldots,y_{n_1}$$ by a perturbation of $$\theta$$.
 
 However, there is a positive measure subset of parameters for which condition (iv) will be impossible to satisfy. For example, there is a positive measure subset such that $$F_\theta$$ is a constant function on all of $$\mathbb R^{n_1}$$. Using $$H_k$$ to denote the hyperplane where $$\tau^A_k$$ is zero, there is a larger subset on which $$F_\theta$$ is constant on the set $$\Phi\circ A(H_k)$$ (and in any "nearby" choice of $$A$$ too).
 
-<table>
-<tr>$$\mathcal{Pf}:$$ To prove Lemma 8.5, the authors of \[GLMW22\] first note that, as a consequence of the assumptions (i) - (iii), for each $$1\le k\le n_1$$, there is an open neighborhood $$U_k$$ of $$y_k$$ so that the ternary labelings of all neurons in $$\mathcal N(A, \theta)$$ are constant on $$U_k$$ except for $$\tau^A_k$$. Furthermore, letting $$U_k^+$$ and $$U_k^-$$ denote the connected components of $$U_k \setminus \{x\ \lvert\ \tau^A_k(x) = 0\}$$, with sign of $$\tau^A_k$$ on each component matching the superscript, we have that the ternary labeling on every neuron of $$(A, \theta)$$ is constant on $$U_k^+$$ and on $$U_k^-$$. As a consequence, $$F_{(A,\theta)}$$ is affine-linear when restricted to either $$U_k^+$$ or $$U_k^-$$, and so $$\mathbf{J}F_{(A,\theta)}$$ is constant on each of $$U_k^{\pm}$$. Furthermore, $$\mathbf{J}F_\theta$$ is constant when restricted to $$\Phi\circ A(U_k)$$.</tr>
+> ##### Proof sketch of Lemma 8.5
+> To prove Lemma 8.5, the authors of \[GLMW22\] first note that, as a consequence of the assumptions (i) - (iii), for each \\(1\le k\le n_1\\), there is an open neighborhood \\(U_k\\) of \\(y_k\\) so that the ternary labelings of all neurons in \\(\mathcal N(A, \theta)\\) are constant on \\(U_k\\) except for \\(\tau^A_k\\). Furthermore, letting \\(U_k^+\\) and \\(U_k^-\\) denote the connected components of \\(U_k \setminus \{x\ \lvert\ \tau^A_k(x) = 0\}\\), with sign of \\(\tau^A_k\\) on each component matching the superscript, we have that the ternary labeling on every neuron of \\((A, \theta)\\) is constant on \\(U_k^+\\) and on \\(U_k^-\\). As a consequence, \\(F_{(A,\theta)}\\) is affine-linear when restricted to either \\(U_k^+\\) or \\(U_k^-\\), and so \\(\mathbf{J}F_{(A,\theta)}\\) is constant on each of \\(U_k^{\pm}\\). Furthermore, \\(\mathbf{J}F_\theta\\) is constant when restricted to \\(\Phi\circ A(U_k)\\).
+> 
+> Next, they show that $$\mathbf{J}F_{(A,\theta)}\lvert_{U_k^+} \ne \mathbf{J}F_{(A,\theta)}\lvert_{U_k^-}$$. To do so, they use the chain rule and that $$F_{A,\theta} = F_\theta\circ (\Phi\circ A)$$. Then, since $$\mathbf{J}(\Phi\circ A)\lvert_{U_k^+}$$ contains a non-zero element in the $$k$$th row, and $$\mathbf{J}(\Phi\circ A)\lvert_{U_k^-}$$ has a zero $$k$$th row, assumption (iv) guarantees a non-zero difference in one of the entries of $$\mathbf{J}F_{(A,\theta)}\lvert_{U_k^+} - \mathbf{J}F_{(A,\theta)}\lvert_{U_k^-}$$.
+> 
+> Having determined that $$\mathbf{J}F_{(A,\theta)}\lvert_{U_k^+} \ne \mathbf{J}F_{(A,\theta)}\lvert_{U_k^-}$$, they have a lemma (Lemma 8.3) that gives the conclusion (v). This lemma produces a set $$Z \subset U_k^+ \cup U_k^-$$, which means that (vi) holds (by construction of $$U_k^{\pm}$$) and that (vii) must hold – making the neighborhood $$U_k$$ smaller if needed. $$\blacksquare$$
+{: .block-tip }
 
-<tr>Next, they show that $$\mathbf{J}F_{(A,\theta)}\lvert_{U_k^+} \ne \mathbf{J}F_{(A,\theta)}\lvert_{U_k^-}$$. To do so, they use the chain rule and that $$F_{A,\theta} = F_\theta\circ (\Phi\circ A)$$. Then, since $$\mathbf{J}(\Phi\circ A)\lvert_{U_k^+}$$ contains a non-zero element in the $$k$$th row, and $$\mathbf{J}(\Phi\circ A)\lvert_{U_k^-}$$ has a zero $$k$$th row, assumption (iv) guarantees a non-zero difference in one of the entries of $$\mathbf{J}F_{(A,\theta)}\lvert_{U_k^+} - \mathbf{J}F_{(A,\theta)}\lvert_{U_k^-}$$.</tr>
+##### Lemma 8.3. 
+Let $$M$$ be a polyhedral complex embedded in $$\mathbb R^d$$, $$d\ge 1$$, and let $$F:\mathbb R^d \to \mathbb R^{n}$$ be a continous map that is affine-linear on cells of $$M$$. Let $$X, Y$$ be two $$d$$-dimensional cells of $$M$$ that share a $$(d-1)$$-dimensional facet, and denote the hyperplane containing the shared facet by $$H$$. Assume that $$\mathbf{J}F\lvert_X \ne \mathbf{J}F\lvert_Y$$. Then, for any decisive sets, $$S_X\subset X$$ for $$F\lvert_X$$ and $$S_Y\subset Y$$ for $$F\lvert_Y$$, $$H$$ is the solution set to an affine-linear equation $$\{x\ \lvert\ c + Ax = \mathbf{0}\}$$ where every entry of $$A$$ is an affine linear expression in the coordinates of $$E_{S_X\cup S_Y}(F)$$. The matrix $$A$$ is unique up to rescaling rows by constants.
 
-<tr>Having determined that $$\mathbf{J}F_{(A,\theta)}\lvert_{U_k^+} \ne \mathbf{J}F_{(A,\theta)}\lvert_{U_k^-}$$, they have a lemma (Lemma 8.3) that gives the conclusion (v). This lemma produces a set $$Z \subset U_k^+ \cup U_k^-$$, which means that (vi) holds (by construction of $$U_k^{\pm}$$) and that (vii) must hold – making the neighborhood $$U_k$$ smaller if needed. $$\blacksquare$$</tr>
-</table>
-
-**Lemma 8.3.** Let $$M$$ be a polyhedral complex embedded in $$\mathbb R^d$$, $$d\ge 1$$, and let $$F:\mathbb R^d \to \mathbb R^{n}$$ be a continous map that is affine-linear on cells of $$M$$. Let $$X, Y$$ be two $$d$$-dimensional cells of $$M$$ that share a $$(d-1)$$-dimensional facet, and denote the hyperplane containing the shared facet by $$H$$. Assume that $$\mathbf{J}F\lvert_X \ne \mathbf{J}F\lvert_Y$$. Then, for any decisive sets, $$S_X\subset X$$ for $$F\lvert_X$$ and $$S_Y\subset Y$$ for $$F\lvert_Y$$, $$H$$ is the solution set to an affine-linear equation $$\{x\ \lvert\ c + Ax = \mathbf{0}\}$$ where every entry of $$A$$ is an affine linear expression in the coordinates of $$E_{S_X\cup S_Y}(F)$$. The matrix $$A$$ is unique up to rescaling rows by constants.
-
-<table>
-<tr>To prove Lemma 8.3, write the points $$S_X = \{z_0,z_1,\ldots,z_d\}$$ (which are vertices of a $$d$$-dimensional simplex in $$X$$, owing to the fact that $$F\lvert_X$$ is affine-linear). Now, since the vectors $$u_i := z_i - z_0$$, with $$1\le i\le d$$, make a basis of $$\mathbb R^d$$, each partial derivative $$\partial F/\partial x_i$$ is a linear combination of the directional derivatives $$D_{u_i}F(z_0)$$. Additionally, $$|z_i-z_0|D_{u_i}F(z_0)$$ is the difference between two coordinates of $$E_{S_X}(F)$$. And so, for every $$x\in X$$, each entry of $$\mathbf{J}F\lvert_x$$ is a linear combination of coordinates of $$E_{S_X}(F)$$.  This is similarly true for $$\mathbf{J}F\lvert_y$$, $$y\in Y$$, and $$E_{S_Y}(F)$$.</tr>
-
-<tr>Note that the extension to $$\mathbb R^d$$ of the affine-linear map $$F\lvert_X$$ can be expressed as $$\mathbf{x} \mapsto c_X + \mathbf{J}F\lvert_X\mathbf{x}$$, for some constant vector $$c_X$$ (and an analogous statement is true for $$Y$$). Since the hyperplane $$H$$ that $$X$$ and $$Y$$ share consists of those $$\mathbf{x}$$ where the extension of $$F\lvert_X$$ and the extension of $$F\lvert_Y$$ agree, we have</tr>
-
-<tr>
-$$H = \{\mathbf{x} | c_X - c_Y + (\mathbf{J}F\lvert_X - \mathbf{J}F\lvert_Y)\mathbf{x} = \mathbf{0} \},$$
-</tr>
-
-<tr>proving the statement.</tr>
-</table>
-
-## Theorem 8.7
----
+> ##### Proof sketch 
+> To prove Lemma 8.3, write the points $$S_X = \{z_0,z_1,\ldots,z_d\}$$ (which are vertices of a $$d$$-dimensional simplex in $$X$$, owing to the fact that $$F\lvert_X$$ is affine-linear). Now, since the vectors $$u_i := z_i - z_0$$, with $$1\le i\le d$$, make a basis of $$\mathbb R^d$$, each partial derivative $$\partial F/\partial x_i$$ is a linear combination of the directional derivatives $$D_{u_i}F(z_0)$$. Additionally, $$\lvert z_i-z_0\rvert D_{u_i}F(z_0)$$ is the difference between two coordinates of $$E_{S_X}(F)$$. And so, for every $$x\in X$$, each entry of $$\mathbf{J}F\lvert_x$$ is a linear combination of coordinates of $$E_{S_X}(F)$$.  This is similarly true for $$\mathbf{J}F\lvert_y$$, $$y\in Y$$, and $$E_{S_Y}(F)$$.
+> 
+> Note that the extension to $$\mathbb R^d$$ of the affine-linear map $$F\lvert_X$$ can be expressed as $$\mathbf{x} \mapsto c_X + \mathbf{J}F\lvert_X\mathbf{x}$$, for some constant vector $$c_X$$ (and an analogous statement is true for $$Y$$). Since the hyperplane $$H$$ that $$X$$ and $$Y$$ share consists of those $$\mathbf{x}$$ where the extension of $$F\lvert_X$$ and the extension of $$F\lvert_Y$$ agree, we have
+> 
+> $$H = \{\mathbf{x} | c_X - c_Y + (\mathbf{J}F\lvert_X - \mathbf{J}F\lvert_Y)\mathbf{x} = \mathbf{0} \},$$
+> 
+> proving the statement. $$\blacksquare$$
+{: .block-tip }
 
 We now discuss Theorem 8.7, which provides sufficient conditions to have equality: $$\dim_{fun}(A, \theta) = n_0n_1 + \dim_{fun}(\theta)$$.
 
-**Theorem 8.7.** Fix a parameter $$\theta\in\Omega$$ which is "nice" and suppose that $$Z_1 \subset \mathbb R_{>0}^{n_1}$$ is a finite set whose ternary labels with respect to every neuron of $$\mathcal N(\theta)$$ are nonzero, and so that $$\dim_{fun}(\theta) = \operatorname{rank} \mathbf{J}E_{Z_1}\lvert_\theta$$. Suppose that $$A:\mathbb R^{n_0}\to\mathbb R^{n_1}$$ is a surjective affine-linear map that satisfies all the assumptions of Lemma 8.5 (including that every $$y_k$$ is in $$\mathbb R_{>0}^{n_0}$$). Then there is a finite set $$Z \subset \mathbb R_{>0}^{n_0}$$ such that the ternary labeling, for all $$z\in Z$$ and every neuron of $$\mathcal N(A,\theta)$$, is nonzero, and
+##### Theorem 8.7. 
+Fix a parameter $$\theta\in\Omega$$ which is "nice" and suppose that $$Z_1 \subset \mathbb R_{>0}^{n_1}$$ is a finite set whose ternary labels with respect to every neuron of $$\mathcal N(\theta)$$ are nonzero, and so that $$\dim_{fun}(\theta) = \operatorname{rank} \mathbf{J}E_{Z_1}\lvert_\theta$$. Suppose that $$A:\mathbb R^{n_0}\to\mathbb R^{n_1}$$ is a surjective affine-linear map that satisfies all the assumptions of Lemma 8.5 (including that every $$y_k$$ is in $$\mathbb R_{>0}^{n_0}$$). Then there is a finite set $$Z \subset \mathbb R_{>0}^{n_0}$$ such that the ternary labeling, for all $$z\in Z$$ and every neuron of $$\mathcal N(A,\theta)$$, is nonzero, and
 
 $$\dim_{fun}(A, \theta) = \operatorname{rank}\mathbf{J}E_Z\lvert_{(A,\theta)} = n_0n_1 + \dim_{fun}(\theta).$$
 
@@ -182,6 +183,7 @@ Now, if $$A \ne X$$ is one of the cells having non-empty intersection with $$Z$$
 > To prove this, note that for each of $$C, \bar C, D$$, and $$\bar D$$, the function  in each column of $$\mathbf{J}E_v$$ restricts in the interiors to a polynomial, expressible so that every monomial in this polynomial is degree at most 1 in the parameter coordinates, and is degree 1 or less in the coordinates of $$v$$, as well.  Suppose that such a monomial is degree 0 in every parameter coordinate corresponding to these two hyperplanes – that is, it is degree 0 in every one of the $$2(n_{\ell-1}+1)$$ coordinates for the rows of $$(W^{\ell} | b^{\ell})$$ that correspond to these neurons, and it is also degree 0 in all $$2n_{\ell+1}$$ coordinates appearing in the columns of $$W^{\ell+1}$$ that correspond to these two neurons. Then this monomial appears in a column of $$\mathbf{J}^{C}E_v$$ if and only if it appears in the same column of $$\mathbf{J}^{\bar C}E_v, \mathbf{J}^{D}E_v$$, and $$\mathbf{J}^{\bar D}E_v$$. Note, since these hyperplanes come from a "hidden layer", any monomial of $$E_x$$, $$x$$ in the interior of one of these cells, that is positive degree in one of the coordinates corresponding to the two hyperplanes must be degree 1 in _two_ such coordinates -- one from $$(W^{\ell} | b^{\ell})$$ and one from $$W^{\ell+1}$$. Thus, in the $$2(n_{\ell-1}+1) + 2n_{\ell+1}$$ columns for partials with respect to such coordinates every non-zero monomial is degree 1 in one of those coordinates.  Hence, all monomials in every column that have degree 0 in those coordinates will vanish in the summation $$\mathbf{J}^{C}E_v + \mathbf{J}^{\bar C}E_v - \mathbf{J}^{D}E_v - \mathbf{J}^{\bar D}E_v$$.
 > Now, suppose that some monomial in $$\mathbf{J}^{A}E_v$$, for $$A = C, \bar C, D,$$ or $$\bar D$$, has degree 1 in one of these coordinates. It cannot be that $$A = \bar D$$ since both of the neurons in question are unactivated in $$\bar D$$.  Moreover, in each column, such a monomial occuring in $$\mathbf{J}^DE_v$$ must be precisely the sum of monomials that separately occur in $$\mathbf{J}^CE_v$$ and $$\mathbf{J}^{\bar C}E_v$$.
 > Since no monomial in $$\mathbf{J}^{A}E_v$$ can be larger than degree 1 in these coordinates, this shows the equation holds.
+{: .block-tip }
 
 While the discussion of the claim discusses the Jacobian of the evaluation map at $$v$$, it would appear that it holds at _any_ point. Using that $$X$$ is one of $$C, \bar C, D$$, or $$\bar D$$, the claim tells us that $$\mathbf{J}^XE_{v}$$ (resp. $$\mathbf{J}^XE_{p}$$) is a linear combination of vectors $$\mathbf{J}^AE_{v}$$ (resp. $$\mathbf{J}^AE_{p}$$), where $$A$$ takes on the other three cells (in each of which we have a subset of $$Z$$ that is affinely independent. Since, for each $$A\in \{C, \bar C, D, \bar D\} \setminus \{X\}$$, we may write $$\mathbf{J}^AE_v$$ and $$\mathbf{J}^AE_p$$ as a linear combination of rows of $$\mathbf{J}E_Z$$, this tells us that $$\mathbf{J}^XE_p = \mathbf{J}E_p$$ can be expressed as a linear combination of rows of $$\mathbf{J}E_Z$$.
 

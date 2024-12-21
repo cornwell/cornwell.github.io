@@ -29,10 +29,10 @@
   --global-newsletter-bg-color: #{$white-color};
   --global-newsletter-text-color: #{$black-color};
 
-  --global-tip-block: #42b983;
+  --global-tip-block: var(--global-theme-color);
   --global-tip-block-bg: #e2f5ec;
-  --global-tip-block-text: #215d42;
-  --global-tip-block-title: #359469;
+  --global-tip-block-text: #{$grey-color-dark};
+  --global-tip-block-title: var(--global-theme-color);
   --global-warning-block: #e7c000;
   --global-warning-block-bg: #fff8d8;
   --global-warning-block-text: #6b5900;
@@ -87,7 +87,7 @@ html[data-theme="dark"] {
   --global-footer-text-color: #{$grey-color-dark};
   --global-footer-link-color: #{$black-color};
   --global-distill-app-color: #{$grey-color-light};
-  --global-divider-color: #424246;
+  --global-divider-color: #{$black-color};
   --global-card-bg-color: #{$grey-900};
   --global-back-to-top-bg-color: rgba(
     #{color.channel($white-color, "red", $space: rgb)},
@@ -99,10 +99,10 @@ html[data-theme="dark"] {
   --global-newsletter-bg-color: #{$grey-color-light};
   --global-newsletter-text-color: #{$grey-color-dark};
 
-  --global-tip-block: #42b983;
-  --global-tip-block-bg: #e2f5ec;
-  --global-tip-block-text: #215d42;
-  --global-tip-block-title: #359469;
+  --global-tip-block: var(--global-theme-color);
+  --global-tip-block-bg: #{$grey-color-middle};
+  --global-tip-block-text: #{$grey-color-light};
+  --global-tip-block-title: var(--global-theme-color);
   --global-warning-block: #e7c000;
   --global-warning-block-bg: #fff8d8;
   --global-warning-block-text: #6b5900;

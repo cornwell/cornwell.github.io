@@ -27,6 +27,7 @@ $yellow-color: #ffbb00 !default;
 $grey-color: #828282 !default;
 $grey-color-light: color.adjust($grey-color, $lightness: 40%);
 $grey-color-dark: #3c3c3c;
+$grey-color-middle: color.adjust($grey-color-dark, $lightness: 10%);
 $grey-900: #212529;
 
 $white-color: #ffffff !default;
