@@ -65,6 +65,8 @@ $$\dim_{fun+}(\theta) = \underset{Z\subset\mathbb R_{>0}^{n_0} \text{ is finite 
 After a small change to the notation, the following is the statement of Lemma 8.2 in \[GLMW22\].
 
 ##### Lemma 8.2
+{: .env-title }
+
 Fix $$n_0\in\mathbb N$$ and let $$\Omega$$ be the parameter space for architecture $$(n_1,n_2,\ldots,n_d)$$. Let $$\theta\in\Omega$$ be such that there is a smooth point in the strictly positive orthant of $$\mathbb R^{n_1}$$. Let $$A:\mathbb R^{n_0}\to\mathbb R^{n_1}$$ be affine-linear such that every row of the associated matrix has at least one non-zero entry. Use $$(A, \theta)$$ to denote the parameter for architecture $$(n_0,n_1,\ldots,n_d)$$ that precomposes with $$A$$, i.e., $$\Phi\circ A$$ is the first layer map of the network function $$F_{(A,\theta)}$$. <br> 
 If $$(A, \theta)$$ satisfies nice conditions, then $$\dim_{fun}(A,\theta) \le n_0n_1 + \dim_{fun+}(\theta)$$. Furthermore, for this inequality to be equality it is necessary that $$\dim_{fun+}(\theta)$$ be realized on a smooth set $$Z^* \subset \operatorname{Im}(\Phi\circ A)$$. 
 
@@ -93,6 +95,8 @@ Intuitively speaking, the value of $$\tau^\ell_j(x)$$ is positive if and only if
 For Lemma 8.5, we have a similar setup to Lemma 8.2. There is a parameter $$\theta\in\Omega$$, for a network with architecture $$(n_1,\ldots, n_d)$$, an affine-linear map $$A:\mathbb R^{n_0}\to\mathbb R^{n_1}$$ (use $$A$$ for the $$n_1\times(n_0+1)$$ matrix that determines it). We are interested in precomposing with $$A$$ to get a neural network with architecture $$(n_0,n_1,\ldots,n_d)$$ and with parameter $$(A, \theta)$$.  Now, before precomposing there are coordinate ternary labelings $$\tau^\ell_j$$ for every  $$1\le \ell\le n_d-1$$ and $$1\le j\le n_{\ell+1}$$[^5]
 
 ##### Lemma 8.5
+{: .env-title }
+
 Suppose that $$\theta$$ and $$A$$ are as above and that $$\theta$$ satisfies "nice conditions."  For $$1\le j\le n_1$$ and $$x\in \mathbb R^{n_0}$$, use $$\tau^A_j(x)$$ to denote the ternary label (at $$x$$) with respect to the $$j$$th row of $$A$$.  Assume that $$A$$ is non-degenerate, in the sense that for $$1\le j\le n_1$$ the set where $$\tau^A_j(x) = 0$$ is a hyperplane in $$\mathbb R^{n_0}$$.
 We suppose that for every $$1\le k\le n_1$$, there exists $$y_k\in\mathbb R^{n_0}$$ such that <br>
 &nbsp;&nbsp;&nbsp;&nbsp; (i) $$\tau^A_k(y_k) = 0$$, <br>
@@ -117,6 +121,8 @@ However, there is a positive measure subset of parameters for which condition (i
 {: .block-tip }
 
 ##### Lemma 8.3. 
+{: .env-title }
+
 Let $$M$$ be a polyhedral complex embedded in $$\mathbb R^d$$, $$d\ge 1$$, and let $$F:\mathbb R^d \to \mathbb R^{n}$$ be a continous map that is affine-linear on cells of $$M$$. Let $$X, Y$$ be two $$d$$-dimensional cells of $$M$$ that share a $$(d-1)$$-dimensional facet, and denote the hyperplane containing the shared facet by $$H$$. Assume that $$\mathbf{J}F\lvert_X \ne \mathbf{J}F\lvert_Y$$. Then, for any decisive sets, $$S_X\subset X$$ for $$F\lvert_X$$ and $$S_Y\subset Y$$ for $$F\lvert_Y$$, $$H$$ is the solution set to an affine-linear equation $$\{x\ \lvert\ c + Ax = \mathbf{0}\}$$ where every entry of $$A$$ is an affine linear expression in the coordinates of $$E_{S_X\cup S_Y}(F)$$. The matrix $$A$$ is unique up to rescaling rows by constants.
 
 > ##### Proof sketch 
@@ -132,6 +138,8 @@ Let $$M$$ be a polyhedral complex embedded in $$\mathbb R^d$$, $$d\ge 1$$, and l
 We now discuss Theorem 8.7, which provides sufficient conditions to have equality: $$\dim_{fun}(A, \theta) = n_0n_1 + \dim_{fun}(\theta)$$.
 
 ##### Theorem 8.7. 
+{: .env-title }
+
 Fix a parameter $$\theta\in\Omega$$ which is "nice" and suppose that $$Z_1 \subset \mathbb R_{>0}^{n_1}$$ is a finite set whose ternary labels with respect to every neuron of $$\mathcal N(\theta)$$ are nonzero, and so that $$\dim_{fun}(\theta) = \operatorname{rank} \mathbf{J}E_{Z_1}\lvert_\theta$$. Suppose that $$A:\mathbb R^{n_0}\to\mathbb R^{n_1}$$ is a surjective affine-linear map that satisfies all the assumptions of Lemma 8.5 (including that every $$y_k$$ is in $$\mathbb R_{>0}^{n_0}$$). Then there is a finite set $$Z \subset \mathbb R_{>0}^{n_0}$$ such that the ternary labeling, for all $$z\in Z$$ and every neuron of $$\mathcal N(A,\theta)$$, is nonzero, and
 
 $$\dim_{fun}(A, \theta) = \operatorname{rank}\mathbf{J}E_Z\lvert_{(A,\theta)} = n_0n_1 + \dim_{fun}(\theta).$$
