@@ -1,11 +1,15 @@
 ---
 layout: post
+title: Getting summer going
 date: 2025-05-27 11:32:00-0400
 inline: false
 related_posts: false
 ---
 
-`\begin{summer}` A few days ago, I finished what turned out to be a tough semester. This summer I'll be ramping back up a couple of research projects that got set aside in the early part of the year and working on home projects that are long overdue! 
+`\begin{summer}` 
+---
+
+A few days ago, I finished what turned out to be a tough semester. This summer I'll be ramping back up a couple of research projects that got set aside in the early part of the year and working on home projects that are long overdue! 
 
 **Research projects.** (1) Understanding statistics of Functional dimension for ReLU feedforward neural networks, particularly how it is influenced by depth and width of the network;  (2) New analysis techniques for studying landmark data on avian hyoid structures, in particular using the Euler Characteristic Transform on the 3D shape data.
 
