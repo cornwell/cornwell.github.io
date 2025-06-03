@@ -76,9 +76,9 @@ Here, I'll work with the balanced data that my students used. Before jumping int
 
 I come from a background that is on the geometry side of mathematics, so I think of each of these binary vectors as representing a vertex on a hypercube $$[0,1]^{14} \subset \mathbb R^{14}$$. While some of the vertices will represent multiple instances in the data, how _mixed_ are the vertices in terms of the target label (on average)? In other words, are most instances at a vertex where the proportion of the other instances at the same vertex, that have the same label, is something close to 0.5? Or are most of the vertices "_mostly just one label_"?
 
-First off, since 70,692 is a bit shy of $$4.5*16000$$, if the points were evenly spread about the $$2^{14}$$ vertices then each vertex would correspond to either 4 or 5 instances in the data (i.e., it would have close to $$6\times10^{-3}$$ percent of the data). 
+First off, since there are about $$16000$$ vertices here, if the points were evenly spread amongst them then each vertex would correspond to $$1/16000$$ of the data (which is about $$6\times10^{-3}$$ _percent_ of the data &ndash; either 4 or 5 instances at each vertex). 
 
-Below, I find instances which correspond to the same vertex as row $$0$$ (see second Jupyter notebook cell). This is about $$0.6\ \%$$ of the data. I then compute the average of $y$-labels of these instances, getting about $$49.3\ \%$$. In other words, the labels of the data at that same vertex are nearly evenly split. Luckily, this is not the case for all vertices. In the later notebook cells, we see that for the instances that match row $$20$$ (which is over $$4.5\ \%$$ of the data), only $$11.6\ \%$$ of them have $y$-label equal to 1; and, for the instances that match row $$2725$$ (which is about $$0.51\ \%$$ of the data), over $$84\ \%$$ of them have $y$-label equal to 1.
+When we find data points (instances) corresponding to the same vertex as row 0 (see second Jupyter notebook cell below), we get about $$0.6\ \%$$ of the data. The average of $$y$$-labels among these instances is $$0.493$$. In other words, the labels of the data at the same vertex as row 0 are nearly evenly split. Luckily, this is not the case for all vertices. In the later notebook cells below, we see that for the instances that match row 20 (which is over $$4.5\ \%$$ of the data), only $$11.6\ \%$$ of them have $$y$$-label equal to 1; in the example following that, for the instances that match row 2725 (which is about $$0.51\ \%$$ of the data), over $$84\ \%$$ of them have $$y$$-label equal to 1.
 
 {::nomarkdown}
 {% assign jupyter_path = 'assets/jupyter/vertex-label-mix.ipynb' | relative_url %}
@@ -89,6 +89,16 @@ Below, I find instances which correspond to the same vertex as row $$0$$ (see se
   <p>Sorry, the notebook you are looking for does not exist.</p>
 {% endif %}
 {:/nomarkdown}
+
+For an overall summary of how mixed the vertices are in terms of labels, we can fit a decision tree model to these data points in $$\mathbb R^{14}$$, putting no restriction on the maximum depth of the tree. As there are only two possible values in each coordinate, if, after fitting, the tree has depth 14, then each of its leaves will contain exactly one vertex of the hypercube. The accuracy score of the fitted model, on the training data, can be interpreted as follows: at each vertex, there is a percentage between $$50\ \%$$ and $$100\ \%$$ equal to the percentage of points with the majority label; the accuracy score is the weighted average of these percentages.
+
+After importing `DecisionTreeClassifier` from `sklearn.tree`, and having assigned the Pandas DataFrame `Xbinary` in the above notebook cells, this can be done as follows.
+
+```python
+tree = DecisionTreeClassifier()
+tree.fit(Xbinary, y)
+tree.score(Xbinary, y)
+```
 
 What do we learn from this?  While these 14 binary variables are not "just noise," <d-footnote>They would be if most of the possible hypercube vertices either had around a 50% mix of labels or did not correspond to any instance.</d-footnote> the inability to separate some 0-labeled points from the 1-labeled points (that are at the same vertex) will present difficulty for classification &ndash; unless the remaining 7 variables provide a clear separation of such points. Considering those remaining variables, the `BMI` and `Age` variables seem to have the best chance of separating the data.
 
