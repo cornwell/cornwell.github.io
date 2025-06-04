@@ -100,6 +100,8 @@ tree.fit(Xbinary, y)
 tree.score(Xbinary, y)
 ```
 
+The output from the last line is $$0.728$$. The conclusion is that, in these 14 variable, the data is about halfway between being pure noise (where the decision tree would have had an accuracy of $$0.5$$) and pure signal (where the accuracy would have been $$1.0$$).
+
 What do we learn from this?  While these 14 binary variables are not "just noise," <d-footnote>They would be if most of the possible hypercube vertices either had around a 50% mix of labels or did not correspond to any instance.</d-footnote> the inability to separate some 0-labeled points from the 1-labeled points (that are at the same vertex) will present difficulty for classification &ndash; unless the remaining 7 variables provide a clear separation of such points. Considering those remaining variables, the `BMI` and `Age` variables seem to have the best chance of separating the data.
 
 ## gaussian kernel SVMs
