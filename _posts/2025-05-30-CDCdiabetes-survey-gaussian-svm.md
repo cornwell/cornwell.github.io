@@ -28,7 +28,7 @@ toc:
 
 ## the data
 
-As part of their class project, my students looked at the CDC Diabetes Health Indicators survey data &ndash; a data set taken from the 2015 BRFSS Survey, made [available on the CDC website](https://www.cdc.gov/brfss/annual_data/annual_2014.html). The data set contains 253,680 instances (each the survey responses of an individual), which is a _clean_ subset of the original 441,455 responses to the CDC survey.  The original survey data has 330 features; however, the data that the students used has just 21 indicators (features) tracked. Also, there is a target variable with three classes: diabetic, pre-diabetic, and no diabetes. My students used a data set that was extracted from this one: first, the diabetic and pre-diabetic classes were put into one class, making it a binary classification problem; second, a subset (of 70,692 instances) was taken so that the two classes are balanced, having 50% of the instances have no diabetes for target value. The extracted data set (and a notebook with how preprocessing was done) is available through the [UCI Machine Learning repository](https://archive.ics.uci.edu/dataset/891/cdc+diabetes+health+indicators) and on [kaggle.com](https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset), from the contributor Alex Teboul.
+As part of their class project, my students looked at the CDC Diabetes Health Indicators survey data &ndash; a data set taken from the 2015 BRFSS Survey, made [available on the CDC website](https://www.cdc.gov/brfss/annual_data/annual_2014.html). The data set contains 253,680 instances (each being the survey responses of an individual), which is a _clean_ subset of the original 441,455 responses to the CDC survey.  The original survey data has 330 features; however, the data that the students used has just 21 features tracked. Also, there is a target variable with three classes: diabetic, pre-diabetic, and no diabetes. My students used a data set derived from this one, but with a change to the target: first, the diabetic and pre-diabetic classes were put into one class, making it a binary classification problem; second, a subset (of 70,692 instances) was taken so that the two classes are balanced, with 50% of the instances have 'no diabetes' for target value. The derived data set (and a notebook with how preprocessing was done) is available through the [UCI Machine Learning repository](https://archive.ics.uci.edu/dataset/891/cdc+diabetes+health+indicators) and on [kaggle.com](https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset), from the contributor Alex Teboul.
 
 As mentioned, many of the features are responses to a survey; however, some are calculated variables based on participant responses. The data includes answers from respondents in the United States (from all 50 states and Washington, DC), as well as from Guam and Puerto Rico.
 
@@ -57,7 +57,7 @@ Other features are integers, with various meanings.
 
 | `BMI` | `GenHlth` | `MentHlth` | `PhysHlth` | `Age` | `Education` | `Income` |
 
-* `GenHlth` is a Likert-scale response in range 1-5. 
+* `GenHlth` is a Likert-scale response in range 1-5, the respondent's perception of their general health.
 * Two of them &ndash; `MentHlth` and `PhysHlth` &ndash; are in range 1-30, corresponding to number of days within the past 30 days that mental, resp. physical, health were _not good_. 
 * Respondents reported their age, education level, and income which were binned into categories, giving the features `Age`, `Education`, and `Income`. 
 * The feature `BMI` is the body mass index, calculated from other responses.
@@ -69,14 +69,14 @@ The target variable fetched by Teboul (for the 3-class data set) is the same as 
 
 In the study by Xie et al., the most accurate model was a neural network model, with 82.41% accuracy. However, this model only had a recall of 0.3781. The researchers fit a decision tree model which had accuracy 74.26% and recall of 0.5161. They also used a support vector machine with Gaussian kernel, achieving accuracy of 81.78% and recall of 0.4014.
 
-My students used a support vector machine with Gaussian kernel to fit a predictive model to the balanced data posted on Kaggle by Teboul. They obtained between 74% and 75% accuracy on test data, but did not report on the recall for the model.
+My students used support vector machines, one with polynomial kernel and another with Gaussian kernel to fit predictive models to the balanced data posted on Kaggle by Teboul. Both models had between 74% and 75% accuracy on test data; the students did not report on the recall for the model.
 
 ### Reconsidering the data
-Here, I'll work with the balanced data that my students used. Before jumping into training a model, let's think about properties of this data. Of the 21 independent variables, 14 are binary. Consider just these 14 columns in the data; that is, for the moment, remove the other columns so that we have just over 70,000 instances, each a vector of fourteen 0's and 1's. There are $$2^{14} \approx 16,000$$ possible vectors, so we are guaranteed that there are some distinct rows (instances) that are identical in these binary columns. 
+Here, I'll work with the balanced data that my students used. Before jumping into training a model, let's think about properties of this data. Of the 21 independent variables, 14 are binary. Consider just these 14 columns in the data; that is, for the moment, remove the other columns so that we have just over 70,000 instances, each a vector of fourteen 0's and 1's. There are $$2^{14} \approx 16,000$$ possible vectors, so we are guaranteed that there are some distinct instances (rows) that are identical in these binary columns. 
 
-I come from a background that is on the geometry side of mathematics, so I think of each of these binary vectors as representing a vertex on a hypercube $$[0,1]^{14} \subset \mathbb R^{14}$$. While some of the vertices will represent multiple instances in the data, how _mixed_ are the vertices in terms of the target label (on average)? In other words, are most instances at a vertex where the proportion of the other instances at the same vertex, that have the same label, is something close to 0.5? Or are most of the vertices "_mostly just one label_"?
+I come from a background that is on the geometry side of mathematics, so I think of each of these binary vectors as representing a vertex on a hypercube $$[0,1]^{14} \subset \mathbb R^{14}$$. While some of the vertices will represent multiple instances in the data, how _mixed_ are the vertices in terms of the target label (on average)? In other words, at a given vertex, do "most" instances have the same label, or is it closer to 50/50? The answer will certainly vary from vertex to vertex, but what happens on average?
 
-First off, since there are about $$16000$$ vertices here, if the points were evenly spread amongst them then each vertex would correspond to $$1/16000$$ of the data (which is about $$6\times10^{-3}$$ _percent_ of the data &ndash; either 4 or 5 instances at each vertex). 
+First off, since there are about $$16000$$ vertices here, if the points were evenly spread amongst them then each vertex would correspond to $$1/16000$$ of the data (which is about $$6\times10^{-5}$$, i.e., $$0.006\ \%$$ of the data &ndash; 4 to 5 instances at each vertex). The data is not that spread out; it seems fairly typical to find vertices that correspond to something between $$0.5\ \%$$ and $$2\ \%$$ of the data (and perhaps there are some vertices with no corresponding instances in the data, I have not checked). 
 
 When we find data points (instances) corresponding to the same vertex as row 0 (see second Jupyter notebook cell below), we get about $$0.6\ \%$$ of the data. The average of $$y$$-labels among these instances is $$0.493$$. In other words, the labels of the data at the same vertex as row 0 are nearly evenly split. Luckily, this is not the case for all vertices. In the later notebook cells below, we see that for the instances that match row 20 (which is over $$4.5\ \%$$ of the data), only $$11.6\ \%$$ of them have $$y$$-label equal to 1; in the example following that, for the instances that match row 2725 (which is about $$0.51\ \%$$ of the data), over $$84\ \%$$ of them have $$y$$-label equal to 1.
 
@@ -90,9 +90,7 @@ When we find data points (instances) corresponding to the same vertex as row 0 (
 {% endif %}
 {:/nomarkdown}
 
-For an overall summary of how mixed the vertices are in terms of labels, we can fit a decision tree model to these data points in $$\mathbb R^{14}$$, putting no restriction on the maximum depth of the tree. As there are only two possible values in each coordinate, if, after fitting, the tree has depth 14, then each of its leaves will contain exactly one vertex of the hypercube. The accuracy score of the fitted model, on the training data, can be interpreted as follows: at each vertex, there is a percentage between $$50\ \%$$ and $$100\ \%$$ equal to the percentage of points with the majority label; the accuracy score is the weighted average of these percentages.
-
-After importing `DecisionTreeClassifier` from `sklearn.tree`, and having assigned the Pandas DataFrame `Xbinary` in the above notebook cells, this can be done as follows.
+For an overall summary of how mixed the vertices are in terms of labels, we can use a decision tree model to help. Fit a decision tree to all of the points in the data, and put no restriction on the maximum depth of the tree. After importing `DecisionTreeClassifier` from `sklearn.tree`, and having assigned the Pandas DataFrame `Xbinary` in the above notebook cells, this can be done as follows.
 
 ```python
 tree = DecisionTreeClassifier()
@@ -100,7 +98,9 @@ tree.fit(Xbinary, y)
 tree.score(Xbinary, y)
 ```
 
-The output from the last line is $$0.728$$. The conclusion is that, in these 14 variable, the data is about halfway between being pure noise (where the decision tree would have had an accuracy of $$0.5$$) and pure signal (where the accuracy would have been $$1.0$$).
+Doing so gives a tree with depth $$14$$. As there are only two possible values of each coordinate feature (and there are $$14$$ features), this means that the tree has a splitting along every coordinate.  Hence, each of its leaves either contains exactly one vertex of the hypercube, or all vertices in that leaf are represented by instances with only one label. The fitted model will label an $$\textbf{x}$$ that is in the data set, which is at some vertex, by assigning it the majority label of the instances at that vertex. 
+
+At one vertex, the percent of the data that will be correctly labeled is precisely the percentage that are in the majority, so between $$50\ \%$$ and $$100\ \%$$. The overall accuracy score of the model, on all of the data, is the weighted average of these percentages. This score on our data (the output from the last command above) is $$0.728$$. Hence, in these 14 variables, the data is about halfway between being pure noise (a score of $$0.5$$) and pure signal (a score of $$1.0$$).
 
 What do we learn from this?  While these 14 binary variables are not "just noise," <d-footnote>They would be if most of the possible hypercube vertices either had around a 50% mix of labels or did not correspond to any instance.</d-footnote> the inability to separate some 0-labeled points from the 1-labeled points (that are at the same vertex) will present difficulty for classification &ndash; unless the remaining 7 variables provide a clear separation of such points. Considering those remaining variables, the `BMI` and `Age` variables seem to have the best chance of separating the data.
 
