@@ -67,7 +67,9 @@ On Kaggle, Teboul provided a link to a relevant study, [posted on the CDC websit
 
 The target variable fetched by Teboul (for the 3-class data set) is the same as the linked study. However, most of the independent variables in the study are **not** those used by Teboul. A few variables align &ndash; e.g., `GenHlth`, `MentHlth`, `AnyHealthcare` (`HLTHPLN1` originally); some contain similar or reformatted information &ndash; e.g., the study uses a categorized version of `BMI`; but, many are completely distinct. (See Appendix A in the study.)
 
-In the study by Xie et al., the most accurate model was a neural network model, with 82.41% accuracy. However, this model only had a recall of 0.3781. The researchers fit a decision tree model which had accuracy 74.26% and recall of 0.5161. They also used a support vector machine with Gaussian kernel, achieving accuracy of 81.78% and recall of 0.4014.
+For some circumstances, it is of interest to consider other metrics besides just the overall classification accuracy. For example, for a model that predicts whether an individual may have diabetes or pre-diabetes, it is reasonable to have a priority for a high true positive rate (here, the proportion of individuals that do have diabetes or pre-diabetes who were identified as such by the model). This measure is called the _recall_.
+
+In the study by Xie et al., the most accurate model was a neural network model, with 82.41% accuracy. However, this model only had a recall of 0.3781. The researchers fit a decision tree model which had accuracy 74.26% and recall of 0.5161. They also used a support vector machine with Gaussian kernel, achieving accuracy of 81.78% and recall of 0.4014.<d-footnote>Note, these metrics are for classification with three labels (keeping diabetes and pre-diabetes separate). I presume that the recall is the true positive rate where "positive" refers only to diabetes.</d-footnote>
 
 My students used support vector machines, one with polynomial kernel and another with Gaussian kernel to fit predictive models to the balanced data posted on Kaggle by Teboul. Both models had between 74% and 75% accuracy on test data; the students did not report on the recall for the model.
 
@@ -78,7 +80,23 @@ I come from a background that is on the geometry side of mathematics, so I think
 
 First off, since there are about $$16000$$ vertices here, if the points were evenly spread amongst them then each vertex would correspond to $$1/16000$$ of the data (which is about $$6\times10^{-5}$$, i.e., $$0.006\ \%$$ of the data &ndash; 4 to 5 instances at each vertex). The data is not that spread out; it seems fairly typical to find vertices that correspond to something between $$0.5\ \%$$ and $$2\ \%$$ of the data (and perhaps there are some vertices with no corresponding instances in the data, I have not checked). 
 
-When we find data points (instances) corresponding to the same vertex as row 0 (see second Jupyter notebook cell below), we get about $$0.6\ \%$$ of the data. The average of $$y$$-labels among these instances is $$0.493$$. In other words, the labels of the data at the same vertex as row 0 are nearly evenly split. Luckily, this is not the case for all vertices. In the later notebook cells below, we see that for the instances that match row 20 (which is over $$4.5\ \%$$ of the data), only $$11.6\ \%$$ of them have $$y$$-label equal to 1; in the example following that, for the instances that match row 2725 (which is about $$0.51\ \%$$ of the data), over $$84\ \%$$ of them have $$y$$-label equal to 1.
+For an overall summary of how mixed the vertices are in terms of labels, we can use a decision tree model to help. Fit a decision tree to all of the points in the data, and put no restriction on the maximum depth of the tree. After importing `DecisionTreeClassifier` from `sklearn.tree`, and having assigned the Pandas DataFrame `Xbinary` as in the notebook cell below (where `X` is the DataFrame with all $$21$$ variables), this can be done as follows.
+
+{::nomarkdown}
+{% assign jupyter_path = 'assets/jupyter/initial-tree-fit.ipynb' | relative_url %}
+{% capture notebook_exists %}{% file_exists assets/jupyter/initial-tree-fit.ipynb %}{% endcapture %}
+{% if notebook_exists == 'true' %}
+  {% jupyter_notebook jupyter_path prompt: false %}
+{% else %}
+  <p>Sorry, the notebook you are looking for does not exist.</p>
+{% endif %}
+{:/nomarkdown}
+
+Doing so gives a tree with depth $$14$$. As there are only two possible values of each coordinate feature (and there are $$14$$ features), this means that the tree has a splitting along every coordinate.  Hence, each of its leaves either contains exactly one vertex of the hypercube, or all vertices in that leaf are represented by instances with only one label. The fitted model will label an $$\textbf{x}$$ that is in the data set, which is at some vertex, by assigning it the majority label of the instances at that vertex. 
+
+At one vertex, the percent of the data that will be correctly labeled is precisely the percentage that are in the majority, so between $$50\ \%$$ and $$100\ \%$$. The overall accuracy score of the model, on all of the data, is the weighted average of these percentages. This score on our data (the output from the last command above) is $$0.728$$. Hence, in these 14 variables, the data is about halfway between being pure noise (a score of $$0.5$$) and pure signal (a score of $$1.0$$). The recall obtained, just from using these 14 variables, is a bit higher than $$0.75$$.<d-footnote>Recall, this is the two-label data. The targets diabetes and pre-diabetes are put into the same class.</d-footnote>
+
+To see the accuracy score at a given vertex we can create a column of booleans that, for each row, indicate whether the instance in that row corresponds to that vertex. Then compute the mean of the labels among the rows which have value `True` in that new column.  As an example, the output in the Jupyter notebook cells below tell us that, among rows that correspond to the same vertex as row 0, the average $$y$$-label is $$0.493$$ (see the second notebook cell). In other words, the labels of the data at the same vertex as row 0 are nearly evenly split (also, note that this vertex contains about $$0.6\ \%$$ of the data). In addition, among rows that match with row 20 (which is over $$4.5\ \%$$ of the data), only $$11.6\ \%$$ of them have $$y$$-label equal to 1 (see the last two cells).
 
 {::nomarkdown}
 {% assign jupyter_path = 'assets/jupyter/vertex-label-mix.ipynb' | relative_url %}
@@ -90,19 +108,7 @@ When we find data points (instances) corresponding to the same vertex as row 0 (
 {% endif %}
 {:/nomarkdown}
 
-For an overall summary of how mixed the vertices are in terms of labels, we can use a decision tree model to help. Fit a decision tree to all of the points in the data, and put no restriction on the maximum depth of the tree. After importing `DecisionTreeClassifier` from `sklearn.tree`, and having assigned the Pandas DataFrame `Xbinary` in the above notebook cells, this can be done as follows.
-
-```python
-tree = DecisionTreeClassifier()
-tree.fit(Xbinary, y)
-tree.score(Xbinary, y)
-```
-
-Doing so gives a tree with depth $$14$$. As there are only two possible values of each coordinate feature (and there are $$14$$ features), this means that the tree has a splitting along every coordinate.  Hence, each of its leaves either contains exactly one vertex of the hypercube, or all vertices in that leaf are represented by instances with only one label. The fitted model will label an $$\textbf{x}$$ that is in the data set, which is at some vertex, by assigning it the majority label of the instances at that vertex. 
-
-At one vertex, the percent of the data that will be correctly labeled is precisely the percentage that are in the majority, so between $$50\ \%$$ and $$100\ \%$$. The overall accuracy score of the model, on all of the data, is the weighted average of these percentages. This score on our data (the output from the last command above) is $$0.728$$. Hence, in these 14 variables, the data is about halfway between being pure noise (a score of $$0.5$$) and pure signal (a score of $$1.0$$).
-
-What do we learn from this?  While these 14 binary variables are not "just noise," <d-footnote>They would be if most of the possible hypercube vertices either had around a 50% mix of labels or did not correspond to any instance.</d-footnote> the inability to separate some 0-labeled points from the 1-labeled points (that are at the same vertex) will present difficulty for classification &ndash; unless the remaining 7 variables provide a clear separation of such points. Considering those remaining variables, the `BMI` and `Age` variables seem to have the best chance of separating the data.
+**What have we learned?**  While these 14 binary variables are not "just noise," <d-footnote>They would be if most of the possible hypercube vertices either had around a 50% mix of labels; i.e., if the output of `tree.score(..)` had been close to $0.5$.</d-footnote> the inability to separate some 0-labeled points from the 1-labeled points (that are at the same vertex) will present difficulty in classification.  One might hope for the remaining 7 variables to help, but we will see that they only help to obtain a marginal increase in accuracy and recall.
 
 ## gaussian kernel SVMs
 
