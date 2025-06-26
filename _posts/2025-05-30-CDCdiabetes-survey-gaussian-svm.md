@@ -71,32 +71,16 @@ For some circumstances, it is of interest to consider other metrics besides just
 
 In the study by Xie et al., the most accurate model was a neural network model, with 82.41% accuracy. However, this model only had a recall of 0.3781. The researchers fit a decision tree model which had accuracy 74.26% and recall of 0.5161. They also used a support vector machine with Gaussian kernel, achieving accuracy of 81.78% and recall of 0.4014.<d-footnote>Note, these metrics are for classification with three labels (keeping diabetes and pre-diabetes separate). I presume that the recall is the true positive rate where "positive" refers only to diabetes.</d-footnote>
 
-My students used support vector machines, one with polynomial kernel and another with Gaussian kernel to fit predictive models to the balanced data posted on Kaggle by Teboul. Both models had between 74% and 75% accuracy on test data; the students did not report on the recall for the model.
+My students used support vector machines, one with polynomial kernel and another with Gaussian kernel to fit predictive models to the balanced data posted on Kaggle by Teboul. Both models had between 74% and 75% accuracy on test data<d-footnote>Recall, the variables in their data are different than those in the study by Xie et al.</d-footnote>; the students did not report on the recall for the model.
 
 ### Reconsidering the data
-Here, I'll work with the balanced data that my students used. Before jumping into training a model, let's think about properties of this data. Of the 21 independent variables, 14 are binary. Consider just these 14 columns in the data; that is, for the moment, remove the other columns so that we have just over 70,000 instances, each a vector of fourteen 0's and 1's. There are $$2^{14} \approx 16,000$$ possible vectors, so we are guaranteed that there are some distinct instances (rows) that are identical in these binary columns. 
+Here, I'll work with the balanced data that my students used. Before jumping into training a model, let's think about properties of this data. Of the 21 independent variables, 14 are binary. Consider just these 14 columns in the data; that is, for the moment, remove the other columns so that we have just over 70,000 instances, each a _binary vector_ of fourteen 0's and 1's. There are $$2^{14} \approx 16,000$$ possible vectors, so we are guaranteed that there are some distinct instances (rows) that have identical binary vectors. 
 
-I come from a background that is on the geometry side of mathematics, so I think of each of these binary vectors as representing a vertex on a hypercube $$[0,1]^{14} \subset \mathbb R^{14}$$. While some of the vertices will represent multiple instances in the data, how _mixed_ are the vertices in terms of the target label (on average)? In other words, at a given vertex, do "most" instances have the same label, or is it closer to 50/50? The answer will certainly vary from vertex to vertex, but what happens on average?
+I come from a background that is on the geometry side of mathematics, so I think of each of these binary vectors as representing a vertex on a hypercube $$[0,1]^{14} \subset \mathbb R^{14}$$. While some of the vertices will represent multiple instances in the data, how _mixed_ are the vertices in terms of the target label (on average)? In other words, at a given vertex, do most instances have the same label, or is it closer to 50/50? The answer will certainly vary from vertex to vertex, but what happens on average?
 
 First off, since there are about $$16000$$ vertices here, if the points were evenly spread amongst them then each vertex would correspond to $$1/16000$$ of the data (which is about $$6\times10^{-5}$$, i.e., $$0.006\ \%$$ of the data &ndash; 4 to 5 instances at each vertex). The data is not that spread out; it seems fairly typical to find vertices that correspond to something between $$0.5\ \%$$ and $$2\ \%$$ of the data (and perhaps there are some vertices with no corresponding instances in the data, I have not checked). 
 
-For an overall summary of how mixed the vertices are in terms of labels, we can use a decision tree model to help. Fit a decision tree to all of the points in the data, and put no restriction on the maximum depth of the tree. After importing `DecisionTreeClassifier` from `sklearn.tree`, and having assigned the Pandas DataFrame `Xbinary` as in the notebook cell below (where `X` is the DataFrame with all $$21$$ variables), this can be done as follows.
-
-{::nomarkdown}
-{% assign jupyter_path = 'assets/jupyter/initial-tree-fit.ipynb' | relative_url %}
-{% capture notebook_exists %}{% file_exists assets/jupyter/initial-tree-fit.ipynb %}{% endcapture %}
-{% if notebook_exists == 'true' %}
-  {% jupyter_notebook jupyter_path prompt: false %}
-{% else %}
-  <p>Sorry, the notebook you are looking for does not exist.</p>
-{% endif %}
-{:/nomarkdown}
-
-Doing so gives a tree with depth $$14$$. As there are only two possible values of each coordinate feature (and there are $$14$$ features), this means that the tree has a splitting along every coordinate.  Hence, each of its leaves either contains exactly one vertex of the hypercube, or all vertices in that leaf are represented by instances with only one label. The fitted model will label an $$\textbf{x}$$ that is in the data set, which is at some vertex, by assigning it the majority label of the instances at that vertex. 
-
-At one vertex, the percent of the data that will be correctly labeled is precisely the percentage that are in the majority, so between $$50\ \%$$ and $$100\ \%$$. The overall accuracy score of the model, on all of the data, is the weighted average of these percentages. This score on our data (the output from the last command above) is $$0.728$$. Hence, in these 14 variables, the data is about halfway between being pure noise (a score of $$0.5$$) and pure signal (a score of $$1.0$$). The recall obtained, just from using these 14 variables, is a bit higher than $$0.75$$.<d-footnote>Recall, this is the two-label data. The targets diabetes and pre-diabetes are put into the same class.</d-footnote>
-
-To see the accuracy score at a given vertex we can create a column of booleans that, for each row, indicate whether the instance in that row corresponds to that vertex. Then compute the mean of the labels among the rows which have value `True` in that new column.  As an example, the output in the Jupyter notebook cells below tell us that, among rows that correspond to the same vertex as row 0, the average $$y$$-label is $$0.493$$ (see the second notebook cell). In other words, the labels of the data at the same vertex as row 0 are nearly evenly split (also, note that this vertex contains about $$0.6\ \%$$ of the data). In addition, among rows that match with row 20 (which is over $$4.5\ \%$$ of the data), only $$11.6\ \%$$ of them have $$y$$-label equal to 1 (see the last two cells).
+When we find data points (instances) corresponding to the same vertex as row 0 (see second Jupyter notebook cell below), we get about $$0.6\ \%$$ of the data. The average of $$y$$-labels among these instances is $$0.493$$. In other words, the labels of the data at the same vertex as row 0 are nearly evenly split. Luckily, this is not the case for all vertices. In the later notebook cells below, we see that for the instances that match row 20 (which is over $$4.5\ \%$$ of the data), only $$11.6\ \%$$ of them have $$y$$-label equal to 1; in the example following that, for the instances that match row 2725 (which is about $$0.51\ \%$$ of the data), over $$84\ \%$$ of them have $$y$$-label equal to 1.
 
 {::nomarkdown}
 {% assign jupyter_path = 'assets/jupyter/vertex-label-mix.ipynb' | relative_url %}
@@ -108,9 +92,30 @@ To see the accuracy score at a given vertex we can create a column of booleans t
 {% endif %}
 {:/nomarkdown}
 
-**What have we learned?**  While these 14 binary variables are not "just noise," <d-footnote>They would be if most of the possible hypercube vertices either had around a 50% mix of labels; i.e., if the output of `tree.score(..)` had been close to $0.5$.</d-footnote> the inability to separate some 0-labeled points from the 1-labeled points (that are at the same vertex) will present difficulty in classification.  One might hope for the remaining 7 variables to help, but we will see that they only help to obtain a marginal increase in accuracy and recall.
+For an overall summary of how mixed the vertices are in terms of labels, we can use a decision tree model to help. Fit a decision tree to all of the points in the data, and put no restriction on the maximum depth of the tree. After importing `DecisionTreeClassifier` from `sklearn.tree`, and having assigned the Pandas DataFrame `Xbinary` in the above notebook cells, this can be done as follows.
+
+```python
+tree = DecisionTreeClassifier()
+tree.fit(Xbinary, y)
+tree.score(Xbinary, y)
+```
+
+Doing so gives a tree with depth $$14$$. As there are only two possible values of each coordinate feature (and there are $$14$$ features), this means that the tree has a splitting along every coordinate.  Hence, each of its leaves either contains exactly one vertex of the hypercube, or all vertices in that leaf are represented by instances with only one label. The fitted model will label an $$\textbf{x}$$ that is in the data set, which is at some vertex, by assigning it the majority label of the instances at that vertex. 
+
+At one vertex, the percent of the data that will be correctly labeled is precisely the percentage that are in the majority, something between $$50\ \%$$ and $$100\ \%$$. The overall accuracy score of the model, on all of the data, is the weighted average of these percentages. This score on our data (the output from the last command above) is $$0.728$$. Hence, in these 14 variables, the data is about halfway between being pure noise and pure signal. (A score of $$0.5$$ would say that knowing these 14 features gives no information &ndash; you may as well flip a coin. A score of $$1.0$$ would say that knowing these 14 features informs you perfectly on what the target label should be.)
+
+What do we learn from this?  While these 14 binary variables are not "just noise," the inability to separate some 0-labeled points from the 1-labeled points (that are at the same vertex) will present difficulty for classification &ndash; unless the remaining 7 variables provide a clear separation of such points. Considering those remaining variables, the `BMI` and `Age` variables seem to have the best chance of separating the data.
 
 ## gaussian kernel SVMs
+
+A standard support vector machine (SVM) attempts to separate data $$X$$ in $$\mathbb R^n$$ in a linear way. It finds the _hyperplane_ in $$\mathbb R^n$$ which strikes the best balance between having maximal margin (a large "gap" between it and the data) and good classification accuracy &ndash; having the 1-labeled data in the positive half-space and the 0-labeled data in the negative half-space, as much as possible. 
+
+Since data is often not linearly separable, SVMs are often used in combination with a _kernel_. That is, there is a transformation of the coordinates of the data, as would be achieved by a mapping $$\Phi:X\subset \mathbb R^n\to\mathbb H$$, and then a standard SVM on the image $$\Phi(X)\subset \mathbb H$$ is determined for the classification task. A rather clever aspect of using SVMs with a kernel, is that you can achieve this without actually determining the mapping $\Phi$. Instead, you choose a _kernel function_ $$K(x,x')$$, whose output equals the inner product of $$\Phi(x)$$ and $$\Phi(x')$$ in $$\mathbb H$$, for a pair of vectors $$x, x'$$ in $$\mathbb R^n$$. 
+
+One common choice for the kernel function is a Gaussian applied to the distance between $$x$$ and $$x'$$, i.e., $$||x-x'||$$. In other words, a constant $$\gamma > 0$$ is chosen and one sets 
+      $$K(x, x') = e^{-\gamma ||x-x'||^2}.$$
+
+After fitting such an SVM to labeled data $$X = \{(x_i, y_i)\}_{i=1}^m$$, a set of _support vectors_, $$x_{i_1}, x_{i_2}, \ldots, x_{i_k}$$ from the data are determined, as well as coefficients $$\alpha_1,\alpha_2,\ldots,\alpha_k$$. For a point $$x\in\mathbb R^n$$, one then has $$\Phi(x)$$ on the positive side of the hyperplane in $$\mathbb H$$ precisely when $$\Sigma_{j=1}^k\alpha_j K(x, x_{i_j}) > 0$$.
 
 ## results on CDC data
 
