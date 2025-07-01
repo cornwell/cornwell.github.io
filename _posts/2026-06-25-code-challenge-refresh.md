@@ -39,3 +39,9 @@ This time, I've some valuable ground rules. First, the following things count: w
 | date          | topic                           | activity            |
 | :-----------: | :------------                   | :------------       |
 | june 25       | svm classifiers                 | reviewed what I had done on the diabetes data and svm post; looked at variable correlations and tested increasing variable usage |
+| june 26       | svm classifiers                 | by successively dropping a variable, found that only 5 variables were needed to get nearly all the accuracy (did not check that my method gave same 5 variables as the one suggested by a blogger's post); then did a small grid search for best params and got a recall of about 0.8 |
+| june 27       | svm classifiers; blog post      | wrote some markdown for general discussion about gaussian svm's; also migrated and cleaned up my notebooks with comments |
+| june 28       | summer undergrad research       | created images to support an argument for Malcolm's conics project (in Euclidean, focus & directrix imply cone intersection) |
+| june 29       | grading                         | ran some of student's code in her project, compared |
+| june 30       | using gen AI                    | checked (non-freemium) AI assistant's ability to do math &ndash; it did poorly, of course |
+| july 1        | svm classifiers, blog post      | compared my 5 variables in svm observation to method used with decision trees on risk data, by blogger |
