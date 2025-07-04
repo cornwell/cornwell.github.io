@@ -45,3 +45,6 @@ This time, I've some valuable ground rules. First, the following things count: w
 | june 29       | grading                         | ran some of student's code in her project, compared |
 | june 30       | using gen AI                    | checked (non-freemium) AI assistant's ability to do math &ndash; it did poorly, of course |
 | july 1        | svm classifiers, blog post      | compared my 5 variables in svm observation to method used with decision trees on risk data, by blogger |
+| july 2        | project euler task              | was on trip this day, just did one project euler question | 
+| july 3        | project euler task              | did another project euler question |
+| july 4        | vscode; svm classifiers         | reminded myself about environment control, noted RFECV (recursive feature elimination) wouldn't work with the svm model; organized notebook and wrote comments for future self |
