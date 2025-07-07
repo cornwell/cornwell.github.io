@@ -108,14 +108,33 @@ What do we learn from this?  While these 14 binary variables are not "just noise
 
 ## gaussian kernel SVMs
 
-A standard support vector machine (SVM) attempts to separate data $$X$$ in $$\mathbb R^n$$ in a linear way. It finds the _hyperplane_ in $$\mathbb R^n$$ which strikes the best balance between having maximal margin (a large "gap" between it and the data) and good classification accuracy &ndash; having the 1-labeled data in the positive half-space and the 0-labeled data in the negative half-space, as much as possible. 
+A standard support vector machine (SVM) attempts to separate data $$X$$ in $$\mathbb R^n$$ in a linear way.  It finds the _hyperplane_ in $$\mathbb R^n$$ which strikes the best balance between having a large margin (the "gap" between it and the data) and good classification accuracy &ndash; having the 1-labeled data in the positive half-space and the 0-labeled data in the negative half-space, as much as possible.  Since data is often not linearly separable, SVMs are often used in combination with a _kernel_.  That is, there is a transformation of the coordinates of the data, as would be achieved by a mapping $$\Phi:\mathbb R^n\to\mathbb H$$ into some space<d-footnote>The space $$\mathbb H$$ can be guaranteed to be some <it>Hilbert space</it>, allowing for certain mathematical operations.</d-footnote> $\mathbb H$ and then an SVM is used on the image $$\Phi(X)\subset \mathbb H$$ to perform classification, separating the data by a hyperplane in $$\mathbb H$$.  
 
-Since data is often not linearly separable, SVMs are often used in combination with a _kernel_. That is, there is a transformation of the coordinates of the data, as would be achieved by a mapping $$\Phi:X\subset \mathbb R^n\to\mathbb H$$, and then a standard SVM on the image $$\Phi(X)\subset \mathbb H$$ is determined for the classification task. A rather clever aspect of using SVMs with a kernel, is that you can achieve this without actually determining the mapping $\Phi$. Instead, you choose a _kernel function_ $$K(x,x')$$, whose output equals the inner product of $$\Phi(x)$$ and $$\Phi(x')$$ in $$\mathbb H$$, for a pair of vectors $$x, x'$$ in $$\mathbb R^n$$. 
+<div class="row mt-3">
+    <div class="col-sm mt-3 mt-md-0">
+        {% include figure.liquid loading="eager" path="assets/img/Hfit-simulated-marginal-hyperplanes.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    </div>
+</div>
+<div class="caption">
+  A set of data points in $\mathbb R^2$, with labels shown by color, that are separable by a hyperplane (which in $\mathbb R^2$ is a line).  The <it>margin</it> is the distance, from the (center) separating hyperplane, to the marginal hyperplanes.
+</div>
 
-One common choice for the kernel function is a Gaussian applied to the distance between $$x$$ and $$x'$$, i.e., $$||x-x'||$$. In other words, a constant $$\gamma > 0$$ is chosen and one sets 
-      $$K(x, x') = e^{-\gamma ||x-x'||^2}.$$
+A rather clever aspect of using SVMs with a kernel is that you can achieve this without actually determining the mapping $\Phi$.  Instead, you choose a _kernel function_ $$K(x,x')$$, whose output will be the inner product of $$\Phi(x)$$ and $$\Phi(x')$$ in $$\mathbb H$$, for a pair of vectors $$x, x'$$ in $$\mathbb R^n$$.  One common choice for the kernel function is a Gaussian applied to the distance between $$x$$ and $$x'$$, i.e., $$\lVert x-x'\rVert$$.  In other words, a constant $$\gamma > 0$$ is chosen and you define  
+<div style="text-align:center;">$K(x, x') = e^{-\gamma\lVert x-x'\rVert^2}.$</div>
 
-After fitting such an SVM to labeled data $$X = \{(x_i, y_i)\}_{i=1}^m$$, a set of _support vectors_, $$x_{i_1}, x_{i_2}, \ldots, x_{i_k}$$ from the data are determined, as well as coefficients $$\alpha_1,\alpha_2,\ldots,\alpha_k$$. For a point $$x\in\mathbb R^n$$, one then has $$\Phi(x)$$ on the positive side of the hyperplane in $$\mathbb H$$ precisely when $$\Sigma_{j=1}^k\alpha_j K(x, x_{i_j}) > 0$$.
+With this definition, if $$x$$ and $$x'$$ are far apart then $$K(x,x')$$ will be close to zero,<d-footnote>How quickly this happens depends on how large $\gamma$ is.</d-footnote> and it will be close to one when $$x$$ and $$x'$$ are very close.  
+
+After fitting such an SVM to labeled data $$X = \{(x_i, y_i)\}_{i=1}^m$$, a set of _support vectors_, $$x_{i_1}, x_{i_2}, \ldots, x_{i_k}$$ from the data are determined, as well as coefficients $$\alpha_1,\alpha_2,\ldots,\alpha_k$$.  These are the only $$k$$ points that are needed to determine the predicted label on a new point; for $$x\in\mathbb R^n$$, the SVM gives $$x$$ a positive label when $$\Sigma_{j=1}^k\alpha_j K(x, x_{i_j}) > 0$$.  Roughly speaking, for a support vector $$x_{i_j}$$ that has label 1, one should expect $$\alpha_j$$ to be positive; if, however, $$x_{i_j}$$ has label 0, one should expect $$\alpha_j$$ to be negative.  Hence, thinking about the discussion of the previous paragraph, there is a nice interpretation: the support vectors that are closest to $$x$$ will have greatest influence on the predicted label of $$x$$, such that the predicted label is more likely to match their own (and the closer they are relative to the other support vectors, the greater the influence is).
+
+If training data mostly has a region filled with data of one label, then some of the points near the "margin" of that region will be support vectors, particularly those that are opposite another region which has points of the other label. 
+
+<div class="row mt-3">
+  <div class="col-sm mt-3 mt-md-0">
+    {% include figure.liquid loading="eager" path="assets/img/support-vecs-Gaussian-SVM.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+  </div>
+</div>
+
+Because of what we observed about a fair number of the features being binary and being somewhat classified just in those coordinates, a Gaussian kernel SVM seems like a natural choice for ML model on this data.  We'll see that it effectively allows us to use only 5 of the features in the data to do our best possible on accuracy and recall.
 
 ## results on CDC data
 

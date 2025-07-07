@@ -48,3 +48,5 @@ This time, I've some valuable ground rules. First, the following things count: w
 | july 2        | project euler task              | was on trip this day, just did one project euler question | 
 | july 3        | project euler task              | did another project euler question |
 | july 4        | vscode; svm classifiers         | reminded myself about environment control, noted RFECV (recursive feature elimination) wouldn't work with the svm model; organized notebook and wrote comments for future self |
+| july 5        | project euler task              | solved palindrome project euler question |
+| july 6        | svm classifiers                 | filled out background on gaussian svm; included images in post that are expandable |
