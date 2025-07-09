@@ -108,33 +108,64 @@ What do we learn from this?  While these 14 binary variables are not "just noise
 
 ## gaussian kernel SVMs
 
-A standard support vector machine (SVM) attempts to separate data $$X$$ in $$\mathbb R^n$$ in a linear way.  It finds the _hyperplane_ in $$\mathbb R^n$$ which strikes the best balance between having a large margin (the "gap" between it and the data) and good classification accuracy &ndash; having the 1-labeled data in the positive half-space and the 0-labeled data in the negative half-space, as much as possible.  Since data is often not linearly separable, SVMs are often used in combination with a _kernel_.  That is, there is a transformation of the coordinates of the data, as would be achieved by a mapping $$\Phi:\mathbb R^n\to\mathbb H$$ into some space<d-footnote>The space $$\mathbb H$$ can be guaranteed to be some <it>Hilbert space</it>, allowing for certain mathematical operations.</d-footnote> $\mathbb H$ and then an SVM is used on the image $$\Phi(X)\subset \mathbb H$$ to perform classification, separating the data by a hyperplane in $$\mathbb H$$.  
+A standard support vector machine (SVM) attempts to separate data $$X$$ in $$\mathbb R^n$$ in a linear way.  It finds the _hyperplane_ in $$\mathbb R^n$$ which strikes the best balance between having a large margin (the "gap" between it and the data) and good classification accuracy &ndash; having the 1-labeled data in the positive half-space and the 0-labeled data in the negative half-space, as much as possible.  Since data is often not linearly separable, SVMs are often used in combination with a _kernel_.  That is, there is a transformation of the coordinates of the data, as would be achieved by a mapping $$\Phi:\mathbb R^n\to\mathbb H$$ into some space<d-footnote>The space $\mathbb H$ can be guaranteed to be some <it>Hilbert space</it>, allowing for certain mathematical operations.</d-footnote> $\mathbb H$ and then an SVM is used on the image $$\Phi(X)\subset \mathbb H$$ to perform classification, separating the data by a hyperplane in $$\mathbb H$$.  
 
 <div class="row mt-3">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/Hfit-simulated-marginal-hyperplanes.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+        {% include figure.liquid loading="eager" path="assets/img/svm-blog.5-30/Hfit-simulated-marginal-hyperplanes.png" class="img-fluid rounded z-depth-1" zoomable=true %}
     </div>
 </div>
 <div class="caption">
   A set of data points in $\mathbb R^2$, with labels shown by color, that are separable by a hyperplane (which in $\mathbb R^2$ is a line).  The <it>margin</it> is the distance, from the (center) separating hyperplane, to the marginal hyperplanes.
 </div>
 
-A rather clever aspect of using SVMs with a kernel is that you can achieve this without actually determining the mapping $\Phi$.  Instead, you choose a _kernel function_ $$K(x,x')$$, whose output will be the inner product of $$\Phi(x)$$ and $$\Phi(x')$$ in $$\mathbb H$$, for a pair of vectors $$x, x'$$ in $$\mathbb R^n$$.  One common choice for the kernel function is a Gaussian applied to the distance between $$x$$ and $$x'$$, i.e., $$\lVert x-x'\rVert$$.  In other words, a constant $$\gamma > 0$$ is chosen and you define  
+A rather clever aspect of using SVMs with a kernel is that you can achieve this without actually determining the mapping $\Phi$.  Instead, you choose a _kernel function_<d-footnote>If some assumptions hold for the function $K$ that is used, then the Representer Theorem guarantees there is a mapping $\Phi$ so that $K(x,x')$ is the inner product $\langle\Phi(x), \Phi(x')\rangle$.</d-footnote> $$K(x,x')$$, whose output will be the inner product of $$\Phi(x)$$ and $$\Phi(x')$$ in $$\mathbb H$$, for a pair of vectors $$x, x'$$ in $$\mathbb R^n$$.  One common choice for the kernel function is a Gaussian applied to the distance between $$x$$ and $$x'$$, i.e., $$\lVert x-x'\rVert$$.  In other words, a constant $$\gamma > 0$$ is chosen and you define  
 <div style="text-align:center;">$K(x, x') = e^{-\gamma\lVert x-x'\rVert^2}.$</div>
 
 With this definition, if $$x$$ and $$x'$$ are far apart then $$K(x,x')$$ will be close to zero,<d-footnote>How quickly this happens depends on how large $\gamma$ is.</d-footnote> and it will be close to one when $$x$$ and $$x'$$ are very close.  
 
-After fitting such an SVM to labeled data $$X = \{(x_i, y_i)\}_{i=1}^m$$, a set of _support vectors_, $$x_{i_1}, x_{i_2}, \ldots, x_{i_k}$$ from the data are determined, as well as coefficients $$\alpha_1,\alpha_2,\ldots,\alpha_k$$.  These are the only $$k$$ points that are needed to determine the predicted label on a new point; for $$x\in\mathbb R^n$$, the SVM gives $$x$$ a positive label when $$\Sigma_{j=1}^k\alpha_j K(x, x_{i_j}) > 0$$.  Roughly speaking, for a support vector $$x_{i_j}$$ that has label 1, one should expect $$\alpha_j$$ to be positive; if, however, $$x_{i_j}$$ has label 0, one should expect $$\alpha_j$$ to be negative.  Hence, thinking about the discussion of the previous paragraph, there is a nice interpretation: the support vectors that are closest to $$x$$ will have greatest influence on the predicted label of $$x$$, such that the predicted label is more likely to match their own (and the closer they are relative to the other support vectors, the greater the influence is).
+After fitting such an SVM to labeled data $$X = \{(x_i, y_i)\}_{i=1}^m$$, a set of _support vectors_, $$x_{i_1}, x_{i_2}, \ldots, x_{i_k}$$ from the data are determined and coefficients $$\alpha_1,\alpha_2,\ldots,\alpha_k$$ (which are the trained parameters for the model).  These are the only $$k$$ points that are needed to determine the predicted label on a new point; for $$x\in\mathbb R^n$$, the SVM gives $$x$$ a positive label when $$\Sigma_{j=1}^k\alpha_j K(x, x_{i_j}) > 0$$.  Roughly speaking, for a support vector $$x_{i_j}$$ that has label 1, one should expect $$\alpha_j$$ to be positive; if, however, $$x_{i_j}$$ has label 0, one should expect $$\alpha_j$$ to be negative.  Hence, thinking about the discussion of the previous paragraph, there is a nice interpretation: the support vectors that are closest to $$x$$ will have greatest influence on the predicted label of $$x$$, such that the predicted label is more likely to match their own (and the closer they are relative to the other support vectors, the greater the influence is).
 
 If training data mostly has a region filled with data of one label, then some of the points near the "margin" of that region will be support vectors, particularly those that are opposite another region which has points of the other label. 
 
 <div class="row mt-3">
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/support-vecs-Gaussian-SVM.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+    {% include figure.liquid loading="eager" path="assets/img/svm-blog.5-30/support-vecs-Gaussian-SVM.png" class="img-fluid rounded z-depth-1" zoomable=true %}
   </div>
 </div>
+<div class="caption">
+  An example set of data with two labels (yellow and purple). The support vectors of a Gaussian SVM have been colored in red.  
+</div>
 
-Because of what we observed about a fair number of the features being binary and being somewhat classified just in those coordinates, a Gaussian kernel SVM seems like a natural choice for ML model on this data.  We'll see that it effectively allows us to use only 5 of the features in the data to do our best possible on accuracy and recall.
+In the diabetes data, as we observed a fair number of the features being binary and with some success in being classified just in those coordinates, the data could be somewhat "clumped."  A Gaussian kernel SVM seems a natural choice for ML model on this data.  Use of such a model allows us to use only 5 of the 21 features in the data and get the best possible accuracy and recall.
+
+To begin, we randomly separate out $$20\ \%$$ of the data for testing. This subset will not be used in any part of the feature selection, model selection, or training. 
+
+## feature selection 
+
+Next, to determine if there are features that do not contribute in a meaningful way to the model, order the variables according to their (empirical) correlation to the target variable. We find the following correlations. 
+
+<div class="row mt-3">
+  <div class="col-sm mt-3 mt-md-0">
+    {% include figure.liquid loading="eager" path="assets/img/svm-blog.5-30/features-by-correlation.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+  </div>
+</div>
+<div class="caption">
+  The variables of the data (including target variable), ordered by correlation to target variable.  
+</div>
+
+Next, we'll use 5-fold cross-validation to eliminate some of the features. To that end, randomly separate the **training data** into 5 equal-size subsets. Then, after training a Gaussian SVM model on 4 of the 5 subsets (with all feature variables for now), record the accuracy achieved on the fifth subset that was not used in training. Do this an additional four times, switching which of the 5 subsets are withheld during training and used for testing accuracy, and average the five accuracies that were recorded. This gives our estimate for how well the model does using all feature variables. 
+
+One repeats the same procedure as above multiple times, but each time we remove the next-lowest feature (in terms of correlation to diabetes) from the data when making the model. This is a recursive feature elimination procedure. Below is a plot of the accuracies against how many of the features were removed. It is remarkably flat until we have _removed_ more than 16 features (5 features left), giving us our cutoff &ndash; we will use the features `GenHlth`, `HighBP`, `BMI`, `HighChol`, and `Age`.
+
+<div class="row mt-3">
+  <div class="col-sm mt-3 mt-md-0">
+    {% include figure.liquid loading="eager" path="assets/img/svm-blog.5-30/feature-selection.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+  </div>
+</div>
+<div class="caption">
+  The accuracy in cross-validation when some number of features of the data (that many of the least-correlated features) have been removed.  
+</div>
 
 ## results on CDC data
 
