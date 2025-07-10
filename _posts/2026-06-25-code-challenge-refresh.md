@@ -52,3 +52,4 @@ This time, I've some valuable ground rules. First, the following things count: w
 | july 6        | svm classifiers                 | filled out background on gaussian svm; included images in post that are expandable |
 | july 7        | project euler task; html-website| just the PE task seemed a bit too easy, even for a day with very little time; spent some additional time adjust the style elements for the code blocks on my site; it is a bit more pleasing |
 | july 8        | svm classifiers                 | checking that the feature elimination gives 5 (the same 5) variables when using all the training data |
+| july 9        | blog post, images               | filled in the section on feature elimination and started the results for the svm post; made and included images for the post |
