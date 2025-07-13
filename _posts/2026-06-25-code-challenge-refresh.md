@@ -54,3 +54,4 @@ This time, I've some valuable ground rules. First, the following things count: w
 | july 8        | svm classifiers                 | checking that the feature elimination gives 5 (the same 5) variables when using all the training data |
 | july 9        | blog post, images               | filled in the section on feature elimination and started the results for the svm post; made and included images for the post |
 | july 10       | project euler task              | code related to primes  |
+| july 11       | model selection                 | practiced using ShuffleSplit |
