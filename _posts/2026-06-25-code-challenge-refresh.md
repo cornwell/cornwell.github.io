@@ -34,7 +34,7 @@ From June 25 to Oct 02, 2025 (inclusive).
 
 I'm pressing refresh on my coding challenge. It's not that I haven't coded since the end of the last log (June 2), but I needed a break on some days &ndash; I was writing with deadlines.
 
-This time, I've some valuable ground rules. First, the following things count: writing comments in code, image generation for posts and manuscripts, and also, any testing-with-code of a mathematical idea. Second, don't be hard on yourself. If you don't have time to do more than 5-10 minutes worth, then do that. Test an idea, or just do some Project Euler or Leetcode challenge problem.
+This time, I've some valuable ground rules. First, the following things count: writing comments in code, image generation for posts and manuscripts, and also, any testing-with-code of a mathematical idea. Second, don't be hard on yourself.<d-footnote>Not being hard on myself, my family had a big trip the week of July 13 and I did family things rather than coding that week. I then "caught up" by doing two distinct coding tasks per day between July 21 and July 28 &ndash; these appear in the July 13 through July 28 entries.</d-footnote> If you don't have time to do more than 5-10 minutes worth, then do that. Test an idea, or just do some Project Euler or Leetcode challenge problem.
 
 | date          | topic                           | activity            |
 | :-----------: | :------------                   | :------------       |
@@ -56,3 +56,5 @@ This time, I've some valuable ground rules. First, the following things count: w
 | july 10       | project euler task              | code related to primes  |
 | july 11       | model selection                 | practiced using ShuffleSplit |
 | july 12       | project euler task              | code for maxproduct     |
+| july 13       | project euler task              | related to pythagorean triplets |
+| july 14       | leetcode problem                | add numbers through linked lists - 100% score for speed |
