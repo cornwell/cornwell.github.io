@@ -1,10 +1,10 @@
 ---
 layout: page
-title: project 9
-description: another project with an image 🎉
+title: math 265
+description: an introductory course in linear algebra 🎉
 img: assets/img/6.jpg
 importance: 4
-category: archive
+category: undergrad
 ---
 
 Every project has a beautiful feature showcase page.
