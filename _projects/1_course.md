@@ -7,13 +7,13 @@ importance: 4
 category: undergrad
 ---
 
-A major part of this course is concerned with procedures and computations dealing with vectors and matrices, and it is important to gain skill in these computations. Assigned work and quizzes will reflect this.
+A major part of this course is concerned with procedures and computations that deal with vectors and matrices, and it is important to gain skill in such computations. Assigned work and quizzes will reflect this.
 
 <div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
+    <div class="col-sm-3 mt-3 mt-md-0">
         {% include figure.liquid path="assets/img/Class_snippings/RReduce.jpg" title="row reducing a matrix" class="img-fluid rounded z-depth-1" %}
     </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
+    <div class="col-sm-3 mt-3 mt-md-0">
         {% include figure.liquid path="assets/img/Class_snippings/OrthoProjection.jpg" title="computing a projection" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
@@ -28,18 +28,18 @@ Yes, what he said &ndash; it's about _insight_. And on that note, there are very
 
 
 <div class="row">
-    <div class="col-sm mt-3 mt-md-0">
+    <div class="col-sm mt-4 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/Class_snippings/spectra.jpg" title="detecting elements from spectroscopy" class="img-fluid rounded z-depth-1" %}
     </div>
-    <div class="col-sm mt-3 mt-md-0">
+    <div class="col-sm mt-8 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/Class_snippings/RotationVideo.gif" title="3D graphics - rotating" class="img-fluid rounded z-depth-1" %}
     </div>
-    <div class="col-sm mt-3 mt-md-0">
+    <!--<div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/Class_snippings/mri.jpg" title="mri of brain" class="img-fluid rounded z-depth-1" %}
-    </div>
+    </div>-->
 </div>
 <div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
+    The spectra (which represent coefficients in some basis) for elements in the periodic table (left). Making a rotating perspective look right in 3D graphics (right).
 </div>
 
 In our class, the purpose is to learn how the mathematical methods work. With that goal, we won't have time to spend large amounts of time on how these applications work. However, I will emphasize a way to think about linear algebra that focuses on concepts, particularly those that, sometimes in surprising ways, led to so many insights and innovation.
