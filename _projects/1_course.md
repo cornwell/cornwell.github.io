@@ -32,7 +32,7 @@ Yes, what he said &ndash; it's about _insight_. And on that note, there are very
         {% include figure.liquid loading="eager" path="assets/img/Class_snippings/spectra.jpg" title="detecting elements from spectroscopy" class="img-fluid rounded z-depth-1" %}
     </div>
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/RotationVideo.gif" title="3D graphics - rotating" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/Class_snippings/RotationVideo.gif" title="3D graphics - rotating" class="img-fluid rounded z-depth-1" %}
     </div>
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.liquid loading="eager" path="assets/img/Class_snippings/mri.jpg" title="mri of brain" class="img-fluid rounded z-depth-1" %}
