@@ -1,8 +1,8 @@
 ---
 layout: page
 title: math 265
-description: an introductory course in linear algebra 🎉
-img: assets/img/13.jpg
+description: an introductory course in linear algebra 💚
+img: assets/img/24a.jpg
 importance: 4
 category: undergrad
 ---
@@ -18,13 +18,15 @@ A major part of this course is concerned with procedures and computations that d
     </div>
 </div>
 <div class="caption">
-    There will be a lot of algebraic work, manipulating matrices (to the left); computing something related to a set of vectors (to the right).
+    Manipulating matrices (on the left). Computing a projection based on a set of vectors (on the right).
 </div>
 
-However, there is a famous quote from Richard Hamming.
+Even so, there is a famous quote from Richard Hamming.
 <blockquote>The purpose of computation is insight, not numbers. (Hamming, 1962)</blockquote>
 
-Yes, what he said &ndash; it's about _insight_. And on that note, there are very few topics that can match linear algebra in terms of the number (and variety) of insights that it has produced. Insights from linear algebra are at the core of signal processing and related techniques, letting us do things such as communicate remotely (so, the ability of your phone to send and receive information), figure out what distant things in space are made of, and monitor what is happening in the body with, for example, a CT-scan or an MRI. In computing, various ideas from linear algebra have been key to developing techniques for: algorithmic speed up for computation times, effective internet searching (Google's PageRank), and the development of 3D graphics systems, to name a few. Additionally, there would be no field of AI (or, more generally, machine learning or deep learning) without linear algebra. It is fundamental.
+Exactly. What he said &ndash; it is about gaining _insights_. On that note, there are very few topics that can match linear algebra in terms of the number (and variety) of new technologies that have been developed by using insights from linear algebra. In fact, it is so essential to how we study mathematics itself that anytime math gets involved in some application, linear algebra is likely involved.
+
+**Some examples.** Linear algebra ideas are at the core of signal processing, letting us do such things as communicate remotely (so, the ability of your phone to send and receive information), figure out what distant stars are made of, and monitor what is happening in the body with, for example, a CT-scan or an MRI. In computing, ideas from linear algebra have been key to developing improved computation times, file compression, effective internet searching (Google's PageRank), and realistic 3D graphics systems, to name a few. As an additional note, the field of AI (or, more generally, machine learning and deep learning) would be _nonexistent_ without linear algebra.
 
 
 <div class="row">
@@ -32,14 +34,11 @@ Yes, what he said &ndash; it's about _insight_. And on that note, there are very
         {% include figure.liquid loading="eager" path="assets/img/Class_snippings/spectra.jpg" title="detecting elements from spectroscopy" class="img-fluid rounded z-depth-1" %}
     </div>
     <div class="col-sm mt-8 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/Class_snippings/RotationVideo.gif" title="3D graphics - rotating" class="img-fluid rounded z-depth-1" %}
+        {% include figure.liquid loading="eager" path="assets/img/Class_snippings/RotationVideo.gif" title="3D graphics - rotating perspective" class="img-fluid rounded z-depth-1" %}
     </div>
-    <!--<div class="col-sm mt-3 mt-md-0">
-        {% include figure.liquid loading="eager" path="assets/img/Class_snippings/mri.jpg" title="mri of brain" class="img-fluid rounded z-depth-1" %}
-    </div>-->
 </div>
 <div class="caption">
     The spectra (which represent coefficients in some basis) for elements in the periodic table (left). Making a rotating perspective look right in 3D graphics (right).
 </div>
 
-In our class, the purpose is to learn how the mathematical methods work. With that goal, we won't have time to spend large amounts of time on how these applications work. However, I will emphasize a way to think about linear algebra that focuses on concepts, particularly those that, sometimes in surprising ways, led to so many insights and innovation.
+In class, our purpose is to learn how the computations and mathematical methods work. With that goal, we won't be able to spend large amounts of time on striking applications of linear algebra. However, we will include in our discussions conceptual ideas and insights which, when mixed with the computational skills, have given rise to so much innovation.
