@@ -32,7 +32,7 @@ As part of their class project, my students looked at the CDC Diabetes Health In
 
 As mentioned, many of the features are responses to a survey; however, some are calculated variables based on participant responses. The data includes answers from respondents in the United States (from all 50 states and Washington, DC), as well as from Guam and Puerto Rico.
 
-**Features.** Two thirds of the features in the data are binary variables that correspond to a response of _yes_ or _no_ to a survey question. These binary variables are listed in the table below. 
+**Features.** Two thirds of the features in the data are binary variables that correspond to a response of _yes_ or _no_ to a survey question.<d-footnote>The feature `Sex` in the data is, of course, not a _yes_ or _no_ response. However, within the derived data set at least, the collected data has only two responses (listed as `0` or `1`, presumably `Female` or `Male`, or vice versa). I would assume this feature refers to the individual's sex assigned at birth, in its intention, and not their gender; even then, it is not binary. However, since there are only two recorded responses in the data, we can _treat_ it as though it were binary.</d-footnote> These binary variables are listed in the table below. 
 
 | feature       | description                                                                     |
 | :-----------: | :------------                                                                   |
@@ -181,4 +181,20 @@ In experiments with training on a wide range of values for $$\gamma$$ and $$C$$,
 
 Keeping these observations in mind, I chose an increasing range of values for $$\gamma$$ between 1 and 1.5 (the value of $$1/(\texttt{n_features*variance})$$ is in that range) and a decreasing range of values of $$C$$, from 1.5 down to 0.5. (I did not make the mesh very fine, for reasons of computational expense.)  Specifically, I did a grid search with 5-fold cross-validation, my pairs $$(\gamma, C)$$ being chosen so that $$\gamma \in \{1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5\}$$ and $$C \in \{1.5, 1.3, 1.1, 0.9, 0.7, 0.5\}$$.  The best performer was $$(\gamma, C) = (1.5, 1.1)$$.
 
+After training the Gaussian SVM model with these choices, the accuracy it achieved on the test data was just over $$74\ \%$$, and the recall on the test data was around $$0.79$$.
+
 ## takeaway
+In our Gaussian SVM model we used five of the 21 variables &ndash; `GenHlth`, `HighBP`, `BMI`, `HighChol`, and `Age` &ndash; which were selected by first ordering all the variables by their correlation (within training data) with the target variable, and then using cross validation to see that you get effectively the same accuracy as you remove variables, until you begin removing these five.  The SVM model was then trained, and it attains an accuracy that is a little more than $$74\ \%$$. 
+
+Earlier in the discussion, we pointed out that one can look only at the binary variables and get $$72.8\ \%$$ accuracy on test data simply by looking at those training data which had the same binary answers, and using what target label was given to most of those.  That is, including the non-binary features only produced between a $$1$$ and $$1.5\ \%$$ improvement.  In fact, `HighBP` and `HighChol` were the only binary features in the five used for the SVM. With the same decision tree method as before, a check shows that you get $$69\ \%$$ accuracy (and recall of $$0.75$$) with just these two variables. 
+
+<div class="row mt-3">
+  <div class="col-sm mt-3 mt-sm-0">
+    {% include figure.liquid loading="eager" path="assets/img/svm-blog.5-30/simple_twovar.png" class="img-fluid rounded z-depth-1" zoomable=true %}
+  </div>
+</div>
+<div class="caption">
+  A plot of the pairs of answers in columns (`HighBP`, `HighChol`), colored according to the percentage of data, at that pair, where the label was diabetic/pre-diabetic (low to high percentage is from dark purple to yellow). The percentage at the point $$(1,0)$$ is $$55\ \%$$.
+</div>
+
+The horizontal coordinate is `HighBP` in the above figure. So, in short, if respondent has been told before that they have high blood pressure, predict diabetes or pre-diabetes (see the caption of the figure). Doing this will be right $$69\ \%$$ of the time; the more complicated Gaussian SVM model has a $$5\ \%$$ improvement in accuracy from that.
