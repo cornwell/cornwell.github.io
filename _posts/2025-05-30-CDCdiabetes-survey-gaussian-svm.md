@@ -190,7 +190,7 @@ Earlier in the discussion, we pointed out that one can look only at the binary v
 
 <div class="row mt-3">
   <div class="col-sm mt-3 mt-md-0">
-    {% include figure.liquid loading="eager" path="assets/img/svm-blog.5-30/simple_twovar.png" max-width="100px" class="img-fluid rounded z-depth-1" zoomable=true %}
+    {% include figure.liquid loading="eager" path="assets/img/svm-blog.5-30/simple_twovar.png" max-width="250px" class="img-fluid rounded z-depth-1" zoomable=true %}
   </div>
 </div>
 <div class="caption">
@@ -199,4 +199,4 @@ Earlier in the discussion, we pointed out that one can look only at the binary v
 
 The percentage of points with diabetic/pre-diabetic label was $$55\ \%$$, from those which had responses (`Yes`, `No`); it was above $$75\ \%$$ from those with responses (`Yes`, `Yes`). So, in short, if respondent has been told before that they have high blood pressure, predict diabetes or pre-diabetes; if they haven't, predict no diabetes. From this data, doing this will be right $$69\ \%$$ of the time; the more complicated Gaussian SVM model has a $$5\ \%$$ improvement in accuracy from that.
 
-From all of this, I'm inclined to say that this data set (the derived one from the UCI library and Kaggle) simply does not have a good mix of information to be insightful for diabetes prediction, especially if the diabetic and pre-diabetic categories are fused.
+From all of this, I'm inclined to say that this data set (the derived one from the UCI library and Kaggle) simply does not have a good mix of information to be insightful for diabetes prediction, especially when the diabetic and pre-diabetic categories are fused as a single outcome.
